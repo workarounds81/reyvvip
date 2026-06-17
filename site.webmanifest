@@ -1,0 +1,14 @@
+{
+  "name": "REY. — Singapore DJ & VIP Table Access",
+  "short_name": "REY.",
+  "description": "Singapore DJ — melodic techno, tech house & progressive. VIP shared-table access and private event sound production.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06060a",
+  "theme_color": "#06060a",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

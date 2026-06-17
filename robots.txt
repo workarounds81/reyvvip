@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://workarounds81.github.io/reyvvip/sitemap.xml
