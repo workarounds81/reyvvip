@@ -233,8 +233,8 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 
 /* ===================== HERO ===================== */
 .hero{padding:118px 0 24px;position:relative;overflow:hidden}
-.hero-bg-photo{position:absolute;right:0;bottom:0;height:100%;width:auto;max-width:55%;object-fit:contain;object-position:bottom right;opacity:.55;mix-blend-mode:screen;filter:invert(1) grayscale(1) contrast(1.1);pointer-events:none;-webkit-mask-image:linear-gradient(to left,black 30%,rgba(0,0,0,.5) 60%,transparent 90%);mask-image:linear-gradient(to left,black 30%,rgba(0,0,0,.5) 60%,transparent 90%)}
-.hero-grid{display:grid;gap:38px;align-items:center}
+.hero-bg-photo{position:absolute;right:0;bottom:0;height:90%;width:auto;pointer-events:none;z-index:0;opacity:1}
+.hero-grid{display:grid;gap:38px;align-items:center;position:relative;z-index:1}
 .hero h1{margin:18px 0 0}
 .hero h1 .big{display:block;font-size:clamp(76px,20vw,150px);line-height:.82}
 .hero h1 .big .dot{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -512,7 +512,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(min-width:820px){.nav-links{display:flex}.burger{display:none}}
 @media(min-width:1000px){
   .hero{padding:140px 0 30px}
-  .hero-bg-photo{opacity:.6;right:0;max-width:48%}
+  .hero-bg-photo{opacity:1}
   .hero-grid{grid-template-columns:1.15fr .85fr;gap:32px}
   .layout{grid-template-columns:1.25fr .75fr}
 }
