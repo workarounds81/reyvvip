@@ -233,8 +233,15 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 
 /* ===================== HERO ===================== */
 .hero{padding:118px 0 24px;position:relative;overflow:hidden}
-.hero-bg-photo{position:absolute;right:-2%;bottom:0;height:95%;width:auto;pointer-events:none;z-index:0;opacity:.7;mix-blend-mode:screen;filter:invert(1) grayscale(1) contrast(1.05) brightness(.95);-webkit-mask-image:linear-gradient(to left,black 40%,rgba(0,0,0,.6) 65%,transparent 88%);mask-image:linear-gradient(to left,black 40%,rgba(0,0,0,.6) 65%,transparent 88%)}
-.hero-grid{display:grid;gap:38px;align-items:center;position:relative;z-index:1}
+/* Layered hero photo — natural colors, transparent cutout.
+   Mobile (default): centered, dimmed, BEHIND all text + widget (z0 < h1 z1 < widget z3).
+   Desktop (≥1000px, below): nudged left behind the wordmark + audio widget (z2). */
+.hero-bg-photo{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:76%;width:auto;pointer-events:none;z-index:0;opacity:.28;
+  -webkit-mask-image:linear-gradient(to top,transparent 0,#000 20%);mask-image:linear-gradient(to top,transparent 0,#000 20%)}
+/* the layered sandwich */
+.hero h1{position:relative;z-index:1}
+.hero .pill-row,.hero p.intro,.hero .genres,.hero .hero-cta,.hero .stats,.hero #sound{position:relative;z-index:3}
+.hero-grid{display:grid;gap:38px;align-items:center;position:relative}
 .hero h1{margin:18px 0 0}
 .hero h1 .big{display:block;font-size:clamp(76px,20vw,150px);line-height:.82}
 .hero h1 .big .dot{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -512,10 +519,49 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(min-width:820px){.nav-links{display:flex}.burger{display:none}}
 @media(min-width:1000px){
   .hero{padding:140px 0 30px}
-  .hero-bg-photo{opacity:.8}
+  .hero-bg-photo{left:auto;right:4%;transform:none;height:95%;opacity:.82;z-index:2;
+    -webkit-mask-image:linear-gradient(to left,#000 52%,transparent 97%),linear-gradient(to top,transparent 1%,#000 13%);
+    mask-image:linear-gradient(to left,#000 52%,transparent 97%),linear-gradient(to top,transparent 1%,#000 13%);
+    -webkit-mask-composite:source-in;mask-composite:intersect}
   .hero-grid{grid-template-columns:1.15fr .85fr;gap:32px}
   .layout{grid-template-columns:1.25fr .75fr}
 }
+
+/* ===================== INTRO OVERLAY (once per session) ===================== */
+.intro{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 72% 60% at 50% 42%,#0d0d18 0%,#06060a 72%)}
+.intro.out{animation:introOut .6s ease forwards}
+.intro-skip{position:absolute;top:16px;right:16px;z-index:6;font-family:'Space Grotesk',monospace;font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:rgba(232,232,240,.5);border:1px solid var(--line);
+  background:rgba(255,255,255,.04);border-radius:999px;padding:9px 15px;transition:color .2s,background .2s}
+.intro-skip:hover{color:#fff;background:rgba(255,255,255,.09)}
+.intro-stage{position:relative;width:min(82vw,400px);height:min(82vw,400px)}
+.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .5s ease;pointer-events:none}
+.scene.show{opacity:1}
+/* step 1 — vinyl */
+.ivinyl{width:64%;height:64%;transform-origin:50% 50%}
+.scene.show .ivinyl{animation:spin 2.6s linear infinite}
+/* step 2 — pixel equalizer + floating notes */
+.intro-eq{display:flex;align-items:flex-end;gap:7px;height:42%}
+.intro-eq i{display:block;width:13px;height:100%;border-radius:2px;transform-origin:bottom;transform:scaleY(.15);
+  background:linear-gradient(to top,#22d3ee,#a855f7 55%,#ec4899);
+  -webkit-mask-image:repeating-linear-gradient(to top,#000 0 7px,transparent 7px 10px);
+  mask-image:repeating-linear-gradient(to top,#000 0 7px,transparent 7px 10px)}
+.scene.show .intro-eq i{animation:eqp var(--d,.7s) steps(6) var(--delay,0s) infinite}
+.note{position:absolute;bottom:18%;font-size:22px;line-height:1;color:#ec4899;opacity:0;filter:drop-shadow(0 0 6px rgba(236,72,153,.55))}
+.scene.show .note{animation:noteFloat var(--nd,2.4s) ease-in var(--ndelay,0s) infinite}
+/* step 3 — dancing silhouettes */
+.idance{width:90%}
+.dz{transform-box:fill-box;transform-origin:50% 100%}
+.scene.show .dz{animation:sway 1s ease-in-out var(--sd,0s) infinite alternate}
+/* step 4 — portrait spring-up + blur-to-focus */
+.intro-portrait{height:100%;display:grid;place-items:end center}
+.intro-portrait img{height:96%;width:auto;transform:translate3d(0,42%,0) scale(.92);filter:blur(22px);opacity:0;will-change:transform,filter,opacity}
+.scene.show .intro-portrait img{animation:portraitReveal 1s cubic-bezier(.34,1.56,.64,1) forwards}
+.intro-word{position:absolute;bottom:6%;left:0;right:0;text-align:center;font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(26px,7vw,40px);letter-spacing:-.02em;opacity:0;animation:wordIn .7s ease 2.9s forwards}
+.intro-word .d{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+@media(prefers-reduced-motion:reduce){.intro{display:none!important}}
 
 /* ===================== KEYFRAMES ===================== */
 @keyframes eq{0%,100%{transform:scaleY(.16)}50%{transform:scaleY(1)}}
@@ -526,10 +572,100 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @keyframes pop{0%{opacity:0;transform:scale(.86)}60%{transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
 @keyframes dash{to{stroke-dashoffset:0}}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* intro sequence */
+@keyframes eqp{0%{transform:scaleY(.15)}50%{transform:scaleY(1)}100%{transform:scaleY(.3)}}
+@keyframes noteFloat{0%{transform:translateY(18px) scale(.8);opacity:0}15%{opacity:1}70%{opacity:.9}100%{transform:translateY(-92px) scale(1.1);opacity:0}}
+@keyframes sway{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+@keyframes portraitReveal{0%{transform:translate3d(0,42%,0) scale(.92);filter:blur(22px);opacity:0}55%{opacity:1}100%{transform:translate3d(0,0,0) scale(1);filter:blur(0);opacity:1}}
+@keyframes wordIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes introOut{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important;animation-iteration-count:1!important;scroll-behavior:auto}}
 </style>
 </head>
 <body>
+
+<!-- ===================== INTRO SEQUENCE (pure CSS/SVG, once per session) ===================== -->
+<noscript><style>#reyIntro{display:none!important}</style></noscript>
+<div class="intro" id="reyIntro" aria-hidden="true">
+  <button class="intro-skip" id="reyIntroSkip" type="button">Skip ›</button>
+  <div class="intro-stage">
+    <!-- Step 1: spinning vinyl -->
+    <div class="scene" data-step="1">
+      <svg class="ivinyl" viewBox="0 0 200 200">
+        <defs>
+          <radialGradient id="ivg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#1a1a25"/><stop offset="72%" stop-color="#0a0a12"/><stop offset="100%" stop-color="#05050a"/></radialGradient>
+          <linearGradient id="ir1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+          <linearGradient id="ir2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ec4899"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="92" fill="url(#ivg)" stroke="url(#ir1)" stroke-width="2"/>
+        <circle cx="100" cy="100" r="74" fill="none" stroke="#fff" stroke-opacity=".06"/>
+        <circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".06"/>
+        <circle cx="100" cy="100" r="30" fill="none" stroke="url(#ir2)" stroke-width="5" stroke-dasharray="5 9" stroke-linecap="round"/>
+        <circle cx="100" cy="100" r="13" fill="url(#ir2)"/><circle cx="100" cy="100" r="3.5" fill="#05050a"/>
+      </svg>
+    </div>
+    <!-- Step 2: pixel equalizer + floating notes -->
+    <div class="scene" data-step="2">
+      <div class="intro-eq">
+        <i style="--d:.66s;--delay:0s"></i><i style="--d:.8s;--delay:.18s"></i><i style="--d:.6s;--delay:.34s"></i>
+        <i style="--d:.74s;--delay:.08s"></i><i style="--d:.9s;--delay:.26s"></i><i style="--d:.62s;--delay:.42s"></i>
+        <i style="--d:.78s;--delay:.14s"></i><i style="--d:.68s;--delay:.3s"></i><i style="--d:.84s;--delay:.05s"></i>
+      </div>
+      <span class="note" style="left:12%;--ndelay:0s;--nd:2.2s">♪</span>
+      <span class="note" style="left:38%;--ndelay:.7s;--nd:2.6s">♫</span>
+      <span class="note" style="left:64%;--ndelay:.3s;--nd:2.4s">♪</span>
+      <span class="note" style="left:85%;--ndelay:1s;--nd:2.8s">♬</span>
+    </div>
+    <!-- Step 3: dancing silhouettes (bridge) -->
+    <div class="scene" data-step="3">
+      <svg class="idance" viewBox="0 0 240 130">
+        <defs><linearGradient id="dgr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="50%" stop-color="#a855f7"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs>
+        <g fill="url(#dgr)" stroke="url(#dgr)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <g transform="translate(48,120)"><g class="dz" style="--sd:0s">
+            <circle cx="0" cy="-78" r="9" stroke="none"/><path d="M0,-69 L0,-34"/><path d="M0,-60 L20,-72"/><path d="M0,-60 L-18,-50"/><path d="M0,-34 L-14,0"/><path d="M0,-34 L13,-4"/>
+          </g></g>
+          <g transform="translate(120,120)"><g class="dz" style="--sd:.28s">
+            <circle cx="0" cy="-82" r="9" stroke="none"/><path d="M0,-73 L0,-36"/><path d="M0,-64 L-20,-76"/><path d="M0,-64 L18,-54"/><path d="M0,-36 L14,0"/><path d="M0,-36 L-13,-4"/>
+          </g></g>
+          <g transform="translate(192,120)"><g class="dz" style="--sd:.5s">
+            <circle cx="0" cy="-78" r="9" stroke="none"/><path d="M0,-69 L0,-34"/><path d="M0,-60 L20,-72"/><path d="M0,-60 L-18,-50"/><path d="M0,-34 L-14,0"/><path d="M0,-34 L13,-4"/>
+          </g></g>
+        </g>
+      </svg>
+    </div>
+    <!-- Step 4: portrait spring-up + blur-to-focus -->
+    <div class="scene" data-step="4">
+      <div class="intro-portrait"><img src="rey-cutout.png" alt="REY. — Singapore DJ" /></div>
+    </div>
+  </div>
+  <div class="intro-word">REY<span class="d">.</span></div>
+</div>
+<script>
+(function(){
+  var intro=document.getElementById('reyIntro'); if(!intro) return;
+  var mq=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)');
+  var reduce=!!(mq&&mq.matches), seen=false;
+  try{ seen=sessionStorage.getItem('reyIntroSeen')==='1'; }catch(e){}
+  if(reduce||seen){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
+  try{ sessionStorage.setItem('reyIntroSeen','1'); }catch(e){}
+  var root=document.documentElement; root.style.overflow='hidden';
+  var scenes=intro.querySelectorAll('.scene'), timers=[];
+  function show(n){ for(var k=0;k<scenes.length;k++){ scenes[k].classList.toggle('show',k===n); } }
+  function at(t,fn){ timers.push(setTimeout(fn,t)); }
+  function finish(){
+    for(var k=0;k<timers.length;k++){ clearTimeout(timers[k]); }
+    intro.classList.add('out');
+    setTimeout(function(){ if(intro.parentNode) intro.parentNode.removeChild(intro); root.style.overflow=''; },650);
+  }
+  at(0,function(){show(0);});      // vinyl
+  at(900,function(){show(1);});    // equalizer + notes
+  at(1950,function(){show(2);});   // dancers (bridge)
+  at(2900,function(){show(3);});   // portrait reveal
+  at(4150,finish);
+  var skip=document.getElementById('reyIntroSkip'); if(skip) skip.addEventListener('click',finish);
+  intro.addEventListener('click',function(e){ if(e.target===intro) finish(); });
+})();
+</script>
 
 <div class="backdrop" aria-hidden="true">
   <span class="orb p"></span><span class="orb c"></span><span class="orb k"></span>
@@ -571,11 +707,11 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 <main>
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="top">
-  <img class="hero-bg-photo" src="DJjpeg2.jpg" alt="" aria-hidden="true" />
+  <img class="hero-bg-photo" src="rey-cutout.png" alt="" aria-hidden="true" />
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <div class="pill-row" style="display:flex;flex-wrap:wrap;gap:8px">
           <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.7" style="width:13px;height:13px"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg> Singapore</span>
           <span class="pill">DJ · VIP Table Curation · Private Production</span>
         </div>
