@@ -169,8 +169,8 @@ section{scroll-margin-top:84px}
 .container{width:100%;max-width:1200px;margin:0 auto;padding:0 20px}
 .mono{font-family:'Space Grotesk',ui-monospace,monospace}
 .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.glass{background:var(--glass);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--line)}
-.glass2{background:var(--glass2);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);border:1px solid var(--line)}
+.glass{background:var(--glass);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--line);transform:translateZ(0);-webkit-transform:translateZ(0)}
+.glass2{background:var(--glass2);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);border:1px solid var(--line);transform:translateZ(0);-webkit-transform:translateZ(0)}
 .muted{color:var(--muted)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);border:0}
 
@@ -908,8 +908,8 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
             <label class="label" for="vipDate"><svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 3v3M16 3v3"/></svg> Pick your night</label>
             <input type="date" id="vipDate" value="2026-06-20" min="2026-01-01" max="2027-12-31" />
           </div>
-          <div style="display:flex;align-items:flex-end">
-            <div class="status active" id="status" style="width:100%">
+          <div style="display:flex;align-items:flex-end;min-width:0">
+            <div class="status active" id="status" style="width:100%;min-width:0;word-break:break-word">
               <span class="ic" id="statusIc"></span>
               <div style="min-width:0"><div class="lab" id="statusLab"></div><div class="rsn" id="statusRsn"></div></div>
             </div>
@@ -938,6 +938,9 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
             <div class="split-row"><div><div class="l">Host share (companion bottle)</div><div class="s" id="hSub">S$60 / guy × 2</div></div><div class="v" style="color:var(--pink)" id="hVal">S$120</div></div>
             <div class="split-row"><div><div class="l">Your DJ / Admin net</div><div class="s" id="dSub">S$90 / guy × 2</div></div><div class="v" style="color:var(--cyan)" id="dVal">S$180</div></div>
             <div class="split-total"><span class="l">Margin / table</span><span class="v" id="mVal">S$180</span></div>
+            <button class="btn btn-ghost btn-full" id="splitTgBtn" style="margin-top:14px;font-size:13px">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:15px;height:15px"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              Send Split to Telegram</button>
           </div>
         </div>
       </div>
@@ -1050,8 +1053,8 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 
           <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px">
             <button class="btn btn-wa btn-full" id="djEnquireBtn">
-              <svg viewBox="0 0 448 512" fill="currentColor" style="width:17px;height:17px"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 438.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.5-186.6 184.5z"/></svg>
-              Enquire via WhatsApp</button>
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:17px;height:17px"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              Enquire via Telegram</button>
             <a class="btn btn-ghost btn-full" id="calBtn" href="https://calendar.google.com/calendar/appointments/schedules/PLACEHOLDER_SCHEDULE_ID" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 3v3M16 3v3"/><circle cx="12" cy="14" r="2.5"/></svg>
               Check Calendar Availability</a>
@@ -1061,7 +1064,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
         <div>
           <div class="sticky">
             <div class="booking-preview glass2">
-              <div class="bar"><span class="d" style="background:#f43f5e"></span><span class="d" style="background:#fbbf24"></span><span class="d" style="background:#34d399"></span><span class="fn">dj-booking.txt</span></div>
+              <div class="bar"><span class="d" style="background:#f43f5e"></span><span class="d" style="background:#fbbf24"></span><span class="d" style="background:#34d399"></span></div>
               <div class="body">
                 <div class="h">🎤 REY. — DJ BOOKING ENQUIRY</div><hr>
                 <div class="pl"><span class="pk">📅 Date</span><span class="pv" id="djPvDate">Flexible / TBC</span></div>
@@ -1069,7 +1072,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
                 <div class="pl"><span class="pk">🎵 Genre</span><span class="pv" id="djPvGenre">Tech House</span></div>
                 <div class="pl"><span class="pk">👥 Guests</span><span class="pv" id="djPvGuests">50 pax</span></div>
                 <div class="pl"><span class="pk">⏱ Set</span><span class="pv" id="djPvDur">3 hrs</span></div><hr>
-                <div style="color:var(--dim)">Compiled live → routes to wa.me/<span id="djPvWa">6581234567</span></div>
+                <div style="color:var(--dim)">Compiled live → routes to @<span id="djPvTg">reyvvip</span> on Telegram</div>
               </div>
             </div>
             <div class="note" style="border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);margin-top:12px">
@@ -1131,14 +1134,14 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
           </div>
 
           <button class="btn btn-wa btn-full" id="quoteBtn" style="margin-top:24px">
-            <svg viewBox="0 0 448 512" fill="currentColor" style="width:18px;height:18px"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 438.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.5-186.6 184.5z"/></svg>
-            Get Production Quote via WhatsApp</button>
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            Get Production Quote via Telegram</button>
         </div>
 
         <div>
           <div class="sticky">
             <div class="booking-preview glass2">
-              <div class="bar"><span class="d" style="background:#f43f5e"></span><span class="d" style="background:#fbbf24"></span><span class="d" style="background:#34d399"></span><span class="fn">production-brief.txt</span></div>
+              <div class="bar"><span class="d" style="background:#f43f5e"></span><span class="d" style="background:#fbbf24"></span><span class="d" style="background:#34d399"></span></div>
               <div class="body">
                 <div class="h">🔊 REY. — PRODUCTION BRIEF</div><hr>
                 <div class="pl"><span class="pk">📅 Date</span><span class="pv" id="pvDate">Flexible / TBC</span></div>
@@ -1147,7 +1150,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
                 <div class="pl"><span class="pk">🎧 DJs</span><span class="pv" id="pvDjCount">1 DJ</span></div>
                 <div class="pl"><span class="pk">🎚️ DJ Decks</span><span class="pv hi" id="pvPa">Yes</span></div>
                 <div class="pl"><span class="pk">🔊 Speakers</span><span class="pv hi" id="pvJbl">Yes</span></div><hr>
-                <div style="color:var(--dim)">Compiled live → routes to wa.me/<span id="pvWa">6581234567</span></div>
+                <div style="color:var(--dim)">Compiled live → routes to @<span id="pvTg">reyvvip</span> on Telegram</div>
               </div>
             </div>
             <div class="note" style="border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);margin-top:12px">
@@ -1304,7 +1307,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
         <div class="cn" id="ckNote">Slot released automatically after countdown</div>
       </div>
       <a class="btn btn-wa btn-full" id="mWa" href="#" target="_blank" rel="noopener" style="margin-top:20px">
-        <svg viewBox="0 0 448 512" fill="currentColor" style="width:17px;height:17px"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:17px;height:17px"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         <span id="mWaText">Send Payment Confirmation</span></a>
       <button class="btn btn-full" id="mClose" style="color:var(--muted);margin-top:8px">Close</button>
     </div>
@@ -1315,6 +1318,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 "use strict";
 /* ============ CONFIG ============ */
 var WA_NUMBER = "6581234567";   // <-- change to your real WhatsApp number (country code, no +)
+var TG_USERNAME = "reyvvip";   // <-- change to your Telegram username (no @)
 var HOST_COST = 60, TOTAL_SECS = 3734;
 
 /* ============ CALENDAR ENGINE ============ */
@@ -1352,10 +1356,14 @@ var $=function(id){return document.getElementById(id);};
 function venueMarkSVG(name,size){ var c=CLUBS[name].accent, id="g"+name.replace(/[^a-zA-Z]/g,"")+size;
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 48 48"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+c[0]+'"/><stop offset="1" stop-color="'+c[1]+'"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="13" fill="none" stroke="url(#'+id+')" stroke-width="1.6" opacity=".55"/><circle cx="24" cy="24" r="11" fill="none" stroke="url(#'+id+')" stroke-width="2"/><circle cx="24" cy="24" r="3.1" fill="url(#'+id+')"/><text x="24" y="40.5" text-anchor="middle" font-family="Syne,sans-serif" font-weight="800" font-size="8" fill="#fff" opacity=".85">'+name[0]+'</text></svg>'; }
 
-/* WhatsApp number into all links */
-(function(){ var f=$("footWa"); if(f) f.href="https://wa.me/"+WA_NUMBER;
+/* Telegram username into preview labels */
+(function(){
+  var djt=$("djPvTg"); if(djt) djt.textContent=TG_USERNAME;
+  var pvt=$("pvTg"); if(pvt) pvt.textContent=TG_USERNAME;
+  /* keep footer WA links working */
+  var f=$("footWa"); if(f) f.href="https://wa.me/"+WA_NUMBER;
   var f2=$("waFooter2"); if(f2) f2.href="https://wa.me/"+WA_NUMBER;
-  var pw=$("pvWa"); if(pw) pw.textContent=WA_NUMBER; })();
+})();
 
 /* marquee */
 (function(){ var items=["Singapore","•","Bangkok","•","Saigon Soon","•","Marquee","•","Zouk","•","G.O.T","•","UpperHouse","•","Yacht Sound","•","No Cover Waits","•","Bottle Culture","•"];
@@ -1455,7 +1463,7 @@ function renderDJ(){
   $("djPvGenre").textContent=djGenres.length?djGenres.join(", "):"Open Format";
   $("djPvGuests").textContent=g+" pax";
   $("djPvDur").textContent=djDuration+" hrs";
-  var pw=$("djPvWa"); if(pw) pw.textContent=WA_NUMBER;
+  var pt=$("djPvTg"); if(pt) pt.textContent=TG_USERNAME;
 }
 
 $("etypeGrid").addEventListener("click",function(e){ var b=e.target.closest(".etype"); if(!b) return;
@@ -1482,7 +1490,7 @@ $("djEnquireBtn").addEventListener("click",function(){
     "👥 Approx. guests: "+g+" pax",
     "⏱ Set duration: "+djDuration+" hrs",
     "","Please advise availability and a bespoke quote. 🙏"];
-  window.open("https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(lines.join("\n")),"_blank");
+  window.open("https://t.me/"+TG_USERNAME+"?text="+encodeURIComponent(lines.join("\n")),"_blank");
 });
 
 /* ============ SOUND & PRODUCTION (Card 2) ============ */
@@ -1495,7 +1503,7 @@ function renderB2B(){
   $("pvDjCount").textContent=djCount;
   $("pvPa").textContent=paOn?"Yes":"No"; $("pvPa").className="pv"+(paOn?" hi":"");
   $("pvJbl").textContent=jblOn?"Yes":"No"; $("pvJbl").className="pv"+(jblOn?" hi":"");
-  var pw=$("pvWa"); if(pw) pw.textContent=WA_NUMBER;
+  var pt=$("pvTg"); if(pt) pt.textContent=TG_USERNAME;
 }
 
 $("scaleGrid").addEventListener("click",function(e){ var b=e.target.closest(".etype"); if(!b) return;
@@ -1521,7 +1529,21 @@ $("quoteBtn").addEventListener("click",function(){
     "👥 Approx. guests: "+g+" pax",
     "🎚️ Equipment: "+(eq.length?eq.join(", "):"House system / TBC"),
     "","Kindly advise availability and a bespoke quote. 🙏"];
-  window.open("https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(lines.join("\n")),"_blank");
+  window.open("https://t.me/"+TG_USERNAME+"?text="+encodeURIComponent(lines.join("\n")),"_blank");
+});
+
+/* ============ SPLIT TELEGRAM ============ */
+$("splitTgBtn").addEventListener("click",function(){
+  var dateStr=$("vipDate").value||"2026-06-20", g=guests, r=rate, dj=Math.max(0,r-HOST_COST);
+  var lines=["📊 REY. — HOST SPLIT CALC","",
+    "📅 Date: "+fmtDateLong(dateStr),
+    "🏛️ Club: "+club+" · "+region,
+    "👥 Guys: "+g,
+    "💵 Customer rate: S$"+r+" / guy",
+    "","Total customer pays: S$"+(r*g).toLocaleString(),
+    "Host share: S$"+(HOST_COST*g).toLocaleString()+" (S$"+HOST_COST+" × "+g+")",
+    "Your net: S$"+(dj*g).toLocaleString()+" (S$"+dj+" × "+g+")"];
+  window.open("https://t.me/"+TG_USERNAME+"?text="+encodeURIComponent(lines.join("\n")),"_blank");
 });
 
 /* ============ SPOTIFY GENRE SWITCHER ============ */
@@ -1540,15 +1562,15 @@ $("tabB").addEventListener("click",function(){ this.classList.add("active"); $("
 var cdTimer=null, cdLeft=300;
 function openModal(method){
   var dateStr=$("vipDate").value||"2026-06-20", total=rate*guests, st=dateStatus(dateStr);
-  var enquiry=(method==="WhatsApp Enquiry");
+  var enquiry=(method==="Telegram Enquiry");
   $("mTitle").textContent=enquiry?"Enquiry Ready":"Slot Secured";
   $("mSub").textContent=enquiry?"Send the message to confirm availability.":"Pending payment via "+method+". Complete to lock your table.";
   $("mClub").textContent=club+" · "+region; $("mDate").textContent=fmtDateLong(dateStr);
   $("mSlots").textContent=guests+(guests>1?" guys":" guy")+" · 11:15 PM"; $("mTotal").textContent="S$"+total.toLocaleString();
   $("countdown").style.display=enquiry?"none":"block";
-  $("mWaText").textContent=enquiry?"Send Enquiry on WhatsApp":"Send Payment Confirmation";
+  $("mWaText").textContent=enquiry?"Send Enquiry on Telegram":"Send Payment Confirmation";
   var msg="🍾 REY. — VIP SHARED TABLE\n\n🌏 City: "+region+"\n🏛️ Club: "+club+"\n📅 Date: "+fmtDateLong(dateStr)+"\n👥 Slots: "+guests+" "+(guests>1?"guys":"guy")+"\n🕦 Arrival: 11:15 PM (VIP Line)\n💵 Total: S$"+total.toLocaleString()+"\n💳 Method: "+method+"\n\nLock me in 🔥";
-  $("mWa").href="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(msg);
+  $("mWa").href="https://t.me/"+TG_USERNAME+"?text="+encodeURIComponent(msg);
   /* countdown reset */
   cdLeft=300; updateCd(); clearInterval(cdTimer);
   if(!enquiry){ cdTimer=setInterval(function(){ if(cdLeft>0){ cdLeft--; updateCd(); } },1000); }
@@ -1560,7 +1582,7 @@ function updateCd(){ var cd=$("countdown"); $("ckVal").textContent=fmtClock(cdLe
 function closeModal(){ $("modal").classList.remove("open"); document.body.style.overflow=""; clearInterval(cdTimer); }
 $("applePay").addEventListener("click",function(){ openModal("Apple Pay"); });
 $("payNow").addEventListener("click",function(){ openModal("PayNow / WhatsApp"); });
-$("payEnquire").addEventListener("click",function(){ openModal("WhatsApp Enquiry"); });
+$("payEnquire").addEventListener("click",function(){ openModal("Telegram Enquiry"); });
 $("modalX").addEventListener("click",closeModal); $("modalOv").addEventListener("click",closeModal); $("mClose").addEventListener("click",closeModal);
 document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeModal(); });
 
