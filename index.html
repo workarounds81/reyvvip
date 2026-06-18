@@ -176,10 +176,10 @@ section{scroll-margin-top:84px}
 
 /* ===================== BACKDROP ===================== */
 .backdrop{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.orb{position:absolute;border-radius:50%;filter:blur(120px)}
-.orb.p{left:-160px;top:-10%;width:520px;height:520px;background:rgba(124,58,237,.25);animation:floaty 22s ease-in-out infinite}
-.orb.c{right:-15%;top:18%;width:460px;height:460px;background:rgba(34,211,238,.16);animation:floaty 26s ease-in-out infinite reverse}
-.orb.k{bottom:-12%;left:28%;width:480px;height:480px;background:rgba(236,72,153,.15);animation:floaty 30s ease-in-out infinite}
+.orb{position:absolute;border-radius:50%;filter:blur(140px)}
+.orb.p{left:-200px;top:-8%;width:700px;height:700px;background:rgba(124,58,237,.38);animation:floaty 28s ease-in-out infinite}
+.orb.c{right:-18%;top:14%;width:600px;height:600px;background:rgba(34,211,238,.2);animation:floaty 34s ease-in-out infinite reverse}
+.orb.k{bottom:-10%;left:22%;width:640px;height:640px;background:rgba(168,85,247,.28);animation:floaty 38s ease-in-out infinite}
 .grid{position:absolute;inset:0;opacity:.6;
   background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
   background-size:64px 64px;
@@ -236,8 +236,8 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 /* Layered hero photo — natural colors, transparent cutout.
    Mobile (default): centered, dimmed, BEHIND all text + widget (z0 < h1 z1 < widget z3).
    Desktop (≥1000px, below): nudged left behind the wordmark + audio widget (z2). */
-.hero-bg-photo{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(82%,330px);height:auto;max-width:none;pointer-events:none;z-index:0;opacity:.24;
-  -webkit-mask-image:linear-gradient(to top,transparent 0,#000 22%);mask-image:linear-gradient(to top,transparent 0,#000 22%)}
+.hero-bg-photo{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:0;opacity:.32;
+  -webkit-mask-image:radial-gradient(ellipse 78% 82% at 50% 80%,#000 30%,rgba(0,0,0,.7) 55%,transparent 80%);mask-image:radial-gradient(ellipse 78% 82% at 50% 80%,#000 30%,rgba(0,0,0,.7) 55%,transparent 80%)}
 /* the layered sandwich */
 .hero h1{position:relative;z-index:1}
 .hero .pill-row,.hero p.intro,.hero .genres,.hero .hero-cta,.hero .stats,.hero #sound{position:relative;z-index:3}
@@ -519,10 +519,9 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(min-width:820px){.nav-links{display:flex}.burger{display:none}}
 @media(min-width:1000px){
   .hero{padding:140px 0 30px}
-  .hero-bg-photo{left:auto;right:4%;transform:none;width:auto;height:95%;opacity:.82;z-index:2;
-    -webkit-mask-image:linear-gradient(to left,#000 52%,transparent 97%),linear-gradient(to top,transparent 1%,#000 13%);
-    mask-image:linear-gradient(to left,#000 52%,transparent 97%),linear-gradient(to top,transparent 1%,#000 13%);
-    -webkit-mask-composite:source-in;mask-composite:intersect}
+  .hero-bg-photo{left:auto;right:2%;transform:none;width:auto;height:94%;opacity:.78;z-index:2;
+    -webkit-mask-image:radial-gradient(ellipse 82% 90% at 70% 60%,#000 28%,rgba(0,0,0,.75) 52%,rgba(0,0,0,.3) 72%,transparent 90%);
+    mask-image:radial-gradient(ellipse 82% 90% at 70% 60%,#000 28%,rgba(0,0,0,.75) 52%,rgba(0,0,0,.3) 72%,transparent 90%)}
   .hero-grid{grid-template-columns:1.15fr .85fr;gap:32px}
   .layout{grid-template-columns:1.25fr .75fr}
 }
@@ -552,8 +551,8 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 .scene.show .note{animation:noteFloat var(--nd,2.4s) ease-in var(--ndelay,0s) infinite}
 /* step 3 — dancing silhouettes */
 .idance{width:90%}
-.dz{transform-box:fill-box;transform-origin:50% 100%}
-.scene.show .dz{animation:sway 1s ease-in-out var(--sd,0s) infinite alternate}
+.dz{transform-box:fill-box;transform-origin:50% 100%;will-change:transform}
+.scene.show .dz{animation:sway 1.1s ease-in-out var(--sd,0s) infinite alternate}
 /* step 4 — portrait spring-up + blur-to-focus */
 .intro-portrait{height:100%;display:grid;place-items:end center}
 .intro-portrait img{height:96%;width:auto;transform:translate3d(0,42%,0) scale(.92);filter:blur(22px);opacity:0;will-change:transform,filter,opacity}
@@ -616,20 +615,32 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
       <span class="note" style="left:64%;--ndelay:.3s;--nd:2.4s">♪</span>
       <span class="note" style="left:85%;--ndelay:1s;--nd:2.8s">♬</span>
     </div>
-    <!-- Step 3: dancing silhouettes (bridge) -->
+    <!-- Step 3: dancing silhouettes -->
     <div class="scene" data-step="3">
-      <svg class="idance" viewBox="0 0 240 130">
-        <defs><linearGradient id="dgr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="50%" stop-color="#a855f7"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs>
-        <g fill="url(#dgr)" stroke="url(#dgr)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-          <g transform="translate(48,120)"><g class="dz" style="--sd:0s">
-            <circle cx="0" cy="-78" r="9" stroke="none"/><path d="M0,-69 L0,-34"/><path d="M0,-60 L20,-72"/><path d="M0,-60 L-18,-50"/><path d="M0,-34 L-14,0"/><path d="M0,-34 L13,-4"/>
-          </g></g>
-          <g transform="translate(120,120)"><g class="dz" style="--sd:.28s">
-            <circle cx="0" cy="-82" r="9" stroke="none"/><path d="M0,-73 L0,-36"/><path d="M0,-64 L-20,-76"/><path d="M0,-64 L18,-54"/><path d="M0,-36 L14,0"/><path d="M0,-36 L-13,-4"/>
-          </g></g>
-          <g transform="translate(192,120)"><g class="dz" style="--sd:.5s">
-            <circle cx="0" cy="-78" r="9" stroke="none"/><path d="M0,-69 L0,-34"/><path d="M0,-60 L20,-72"/><path d="M0,-60 L-18,-50"/><path d="M0,-34 L-14,0"/><path d="M0,-34 L13,-4"/>
-          </g></g>
+      <svg class="idance" viewBox="0 0 320 160" style="filter:drop-shadow(0 0 10px rgba(34,211,238,.7)) drop-shadow(0 0 22px rgba(99,102,241,.5))">
+        <defs>
+          <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- Dancer 1 — arms up, weight on left leg -->
+        <g class="dz" style="--sd:0s" transform="translate(56,148)" fill="#06060a" stroke="#22d3ee" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+          <ellipse cx="0" cy="-128" rx="11" ry="13"/>
+          <path d="M0,-115 C-2,-95 -4,-75 -6,-58 C-14,-62 -22,-68 -26,-80 C-28,-85 -18,-90 -14,-82 C-10,-70 -8,-60 -6,-58 C-4,-56 4,-56 6,-58 C10,-70 12,-82 16,-90 C20,-98 10,-96 8,-80"/>
+          <path d="M-6,-58 C-8,-42 -12,-22 -14,0 L-22,0 C-20,-22 -16,-42 -14,-58"/>
+          <path d="M-6,-58 C-4,-42 0,-22 2,0 L10,0 C8,-22 4,-42 2,-58"/>
+        </g>
+        <!-- Dancer 2 — side lean, one arm out -->
+        <g class="dz" style="--sd:.32s" transform="translate(160,148)" fill="#06060a" stroke="#22d3ee" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+          <ellipse cx="0" cy="-132" rx="11" ry="13"/>
+          <path d="M0,-119 C2,-100 6,-80 8,-62 C18,-58 28,-54 34,-44 C38,-36 26,-34 22,-42 C16,-54 10,-60 8,-62 C6,-64 -4,-64 -6,-62 C-12,-50 -16,-36 -20,-24"/>
+          <path d="M8,-62 C10,-44 12,-22 14,0 L6,0 C4,-22 2,-44 0,-62"/>
+          <path d="M8,-62 C4,-44 -2,-22 -4,0 L-14,0 C-10,-22 -4,-44 -2,-62"/>
+        </g>
+        <!-- Dancer 3 — arms spread, jumping pose -->
+        <g class="dz" style="--sd:.18s" transform="translate(264,148)" fill="#06060a" stroke="#22d3ee" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+          <ellipse cx="0" cy="-126" rx="11" ry="13"/>
+          <path d="M0,-113 C0,-95 0,-78 0,-60 C-12,-54 -24,-46 -30,-36 C-26,-30 -16,-38 -12,-48 C-6,-58 -2,-62 0,-60 C2,-62 6,-58 12,-50 C18,-40 28,-30 32,-36 C36,-44 24,-52 16,-58 C10,-62 4,-60 0,-60"/>
+          <path d="M-4,-60 C-6,-40 -10,-18 -14,0 L-22,0"/>
+          <path d="M4,-60 C8,-40 12,-18 16,0 L8,0"/>
         </g>
       </svg>
     </div>
@@ -644,10 +655,8 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 (function(){
   var intro=document.getElementById('reyIntro'); if(!intro) return;
   var mq=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)');
-  var reduce=!!(mq&&mq.matches), seen=false, force=/[?&]intro\b/.test(location.search);
-  try{ seen=sessionStorage.getItem('reyIntroSeen')==='1'; }catch(e){}
-  if(reduce||(seen&&!force)){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
-  try{ sessionStorage.setItem('reyIntroSeen','1'); }catch(e){}
+  var reduce=!!(mq&&mq.matches);
+  if(reduce){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
   var root=document.documentElement; root.style.overflow='hidden';
   var scenes=intro.querySelectorAll('.scene'), timers=[];
   function show(n){ for(var k=0;k<scenes.length;k++){ scenes[k].classList.toggle('show',k===n); } }
