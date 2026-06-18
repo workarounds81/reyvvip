@@ -1361,10 +1361,6 @@ function venueMarkSVG(name,size){ var c=CLUBS[name].accent, id="g"+name.replace(
 (function(){ var items=["Singapore","•","Bangkok","•","Saigon Soon","•","Marquee","•","Zouk","•","G.O.T","•","UpperHouse","•","Yacht Sound","•","No Cover Waits","•","Bottle Culture","•"];
   var html=""; for(var k=0;k<2;k++){ for(var i=0;i<items.length;i++) html+="<span>"+items[i]+"</span>"; } $("marqueeRow").innerHTML=html; })();
 
-/* soundwave bars */
-(function(){ var w=$("wave"),h=""; for(var i=0;i<56;i++){ var dur=(0.55+((i*7)%9)*0.085).toFixed(2); var del=(((i*5)%13)*0.06).toFixed(2); var rest=(0.12+(i%5)*0.045).toFixed(2);
-  h+='<span style="--d:'+dur+'s;--delay:'+del+'s;transform:scaleY('+rest+')"></span>'; } w.innerHTML=h; })();
-
 /* barcode */
 (function(){ var b=$("barcode"),h=""; for(var i=0;i<22;i++){ h+='<span style="height:'+(6+((i*37)%34))+'px"></span>'; } b.innerHTML=h; })();
 
