@@ -256,25 +256,14 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 .stats .s span{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--dim);margin-top:2px;display:block}
 
 /* live set card */
-.liveset{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 0 0 1px rgba(168,85,247,.5),0 0 40px -10px rgba(168,85,247,.55)}
-.liveset .art{position:absolute;right:-60px;top:-60px;width:280px;height:280px;opacity:.4;pointer-events:none}
-.liveset .pad{position:relative;padding:26px}
-.ls-top{display:flex;align-items:center;justify-content:space-between}
+.sp-wrap{border-radius:24px;padding:20px;box-shadow:0 0 0 1px rgba(168,85,247,.4),0 0 40px -10px rgba(168,85,247,.4)}
+.sp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .tag-live{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.1);color:var(--cyan);border-radius:999px;padding:6px 12px;font-size:11px;font-weight:600;letter-spacing:.04em}
 .tag-live .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:blink 1.4s infinite}
-.ls-main{display:flex;align-items:flex-end;gap:16px;margin-top:24px}
-.play-btn{flex:0 0 auto;display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;box-shadow:0 0 30px rgba(168,85,247,.6);transition:transform .15s}
-.play-btn:hover{transform:scale(1.06)}
-.play-btn svg{width:26px;height:26px}
-.ls-title{font-family:'Syne',sans-serif;font-weight:800;font-size:20px}
-.ls-sub{font-size:13.5px;color:var(--muted);margin-top:2px}
-.wave{display:flex;align-items:flex-end;gap:2px;height:62px;margin-top:20px}
-.wave span{flex:1 1 0;border-radius:3px;transform-origin:bottom;background:linear-gradient(to top,#22d3ee,#a855f7 55%,#ec4899);transform:scaleY(.18);opacity:.5;transition:opacity .3s}
-.wave.playing span{opacity:1;animation:eq var(--d,.8s) ease-in-out var(--delay,0s) infinite}
-.track{position:relative;height:8px;border-radius:999px;background:rgba(255,255,255,.1);margin-top:18px;cursor:pointer}
-.track .fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:999px;background:var(--grad)}
-.track .knob{position:absolute;top:50%;left:0;width:14px;height:14px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 0 12px rgba(236,72,153,.9)}
-.ls-time{display:flex;justify-content:space-between;margin-top:9px;font-family:'Space Grotesk',monospace;font-size:12px;color:var(--muted)}
+.sp-genres{display:flex;flex-wrap:wrap;gap:7px}
+.sp-genre{font-family:'Syne',sans-serif;font-weight:800;font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);transition:border .15s,color .15s,background .15s}
+.sp-genre:hover{border-color:rgba(255,255,255,.25);color:var(--text)}
+.sp-genre.active{border-color:rgba(168,85,247,.6);background:rgba(168,85,247,.1);color:#fff}
 .showreel-note{text-align:center;font-size:12px;color:var(--dim);margin-top:12px}
 
 /* marquee */
@@ -284,9 +273,9 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 
 /* ===================== SECTIONS ===================== */
 .section{padding:78px 0}
-.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px}
+.sec-head{display:flex;flex-direction:column;gap:14px}
 .sec-head h2{font-size:clamp(33px,7vw,58px);max-width:640px}
-.sec-head p{max-width:360px;color:var(--muted);font-size:14.5px}
+.sec-head p{max-width:600px;color:var(--muted);font-size:14.5px}
 .layout{display:grid;gap:24px;margin-top:40px}
 .panel{border-radius:26px;padding:22px}
 @media(min-width:600px){.panel{padding:28px}}
@@ -571,9 +560,6 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(max-width:820px){.intro-skip{display:none!important}}
 .intro-stage{position:relative;width:min(80vw,360px);height:min(80vw,360px)}
 /* scene 3 breaks out of stage to cover full screen */
-.scene-fullscreen{position:fixed;inset:0;display:grid;place-items:center;opacity:0}
-.scene-fullscreen[data-step="3"]{animation:s3 2.5s ease forwards}
-.scene-fullscreen img{width:100vw;height:100vh;object-fit:cover;mix-blend-mode:screen;opacity:.88}
 .scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0}
 .scene[data-step="1"]{animation:s1 2.5s ease forwards}
 .scene[data-step="2"]{animation:s2 2.5s ease forwards}
@@ -721,9 +707,72 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
         <i style="--d:.52s;--delay:.09s"></i><i style="--d:.46s;--delay:.2s"></i><i style="--d:.56s;--delay:.03s"></i>
       </div>
     </div>
-    <!-- Step 3: crowd GIF (fullscreen, screen-blended) -->
-    <div class="scene scene-fullscreen" data-step="3">
-      <img src="S4.gif" alt="" aria-hidden="true" decoding="async" />
+    <!-- Step 3: neon crowd silhouettes -->
+    <div class="scene" data-step="3">
+      <svg viewBox="0 0 320 200" style="width:95%;height:auto">
+        <defs>
+          <linearGradient id="cg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a855f7" stop-opacity=".9"/><stop offset="1" stop-color="#7c3aed" stop-opacity=".4"/></linearGradient>
+          <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ec4899" stop-opacity=".9"/><stop offset="1" stop-color="#a855f7" stop-opacity=".4"/></linearGradient>
+          <linearGradient id="cg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22d3ee" stop-opacity=".9"/><stop offset="1" stop-color="#a855f7" stop-opacity=".4"/></linearGradient>
+          <radialGradient id="glow1" cx="50%" cy="100%" r="60%"><stop offset="0" stop-color="#a855f7" stop-opacity=".35"/><stop offset="1" stop-color="#a855f7" stop-opacity="0"/></radialGradient>
+          <radialGradient id="glow2" cx="50%" cy="100%" r="60%"><stop offset="0" stop-color="#ec4899" stop-opacity=".35"/><stop offset="1" stop-color="#ec4899" stop-opacity="0"/></radialGradient>
+          <radialGradient id="glow3" cx="50%" cy="100%" r="60%"><stop offset="0" stop-color="#22d3ee" stop-opacity=".35"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+        </defs>
+        <!-- stage glow pools -->
+        <ellipse cx="60" cy="195" rx="55" ry="20" fill="url(#glow1)"/>
+        <ellipse cx="160" cy="195" rx="55" ry="20" fill="url(#glow2)"/>
+        <ellipse cx="262" cy="195" rx="55" ry="20" fill="url(#glow3)"/>
+        <!-- figure helpers: head+body+arms as simple paths, colored with gradient, sway animated -->
+        <!-- left cluster: 3 figures purple -->
+        <g fill="url(#cg1)">
+          <g class="dz" style="--sd:.05s;transform-box:fill-box;transform-origin:20px 195px">
+            <circle cx="20" cy="122" r="9"/><rect x="13" y="131" width="14" height="36" rx="5"/>
+            <path d="M13 141 Q4 128 8 118"/><path d="M27 141 Q36 128 32 118"/>
+          </g>
+          <g class="dz" style="--sd:.25s;transform-box:fill-box;transform-origin:46px 195px">
+            <circle cx="46" cy="115" r="10"/><rect x="38" y="125" width="16" height="40" rx="5"/>
+            <path d="M38 138 Q28 122 33 112"/><path d="M54 138 Q64 122 59 112"/>
+          </g>
+          <g class="dz" style="--sd:.45s;transform-box:fill-box;transform-origin:72px 195px">
+            <circle cx="72" cy="120" r="9"/><rect x="65" y="129" width="14" height="38" rx="5"/>
+            <path d="M65 142 Q56 130 60 120"/><path d="M79 142 Q88 130 84 120"/>
+          </g>
+        </g>
+        <!-- middle cluster: 3 figures pink, slightly taller -->
+        <g fill="url(#cg2)">
+          <g class="dz" style="--sd:.15s;transform-box:fill-box;transform-origin:132px 195px">
+            <circle cx="132" cy="110" r="10"/><rect x="124" y="120" width="16" height="44" rx="5"/>
+            <path d="M124 134 Q113 118 118 107"/><path d="M140 134 Q151 118 146 107"/>
+          </g>
+          <g class="dz" style="--sd:.35s;transform-box:fill-box;transform-origin:160px 195px">
+            <circle cx="160" cy="102" r="11"/><rect x="151" y="113" width="18" height="50" rx="6"/>
+            <path d="M151 130 Q138 112 144 100"/><path d="M169 130 Q182 112 176 100"/>
+          </g>
+          <g class="dz" style="--sd:.0s;transform-box:fill-box;transform-origin:188px 195px">
+            <circle cx="188" cy="112" r="10"/><rect x="180" y="122" width="16" height="44" rx="5"/>
+            <path d="M180 136 Q169 120 174 109"/><path d="M196 136 Q207 120 202 109"/>
+          </g>
+        </g>
+        <!-- right cluster: 3 figures cyan -->
+        <g fill="url(#cg3)">
+          <g class="dz" style="--sd:.4s;transform-box:fill-box;transform-origin:248px 195px">
+            <circle cx="248" cy="120" r="9"/><rect x="241" y="129" width="14" height="38" rx="5"/>
+            <path d="M241 142 Q232 130 236 120"/><path d="M255 142 Q264 130 260 120"/>
+          </g>
+          <g class="dz" style="--sd:.2s;transform-box:fill-box;transform-origin:274px 195px">
+            <circle cx="274" cy="114" r="10"/><rect x="266" y="124" width="16" height="42" rx="5"/>
+            <path d="M266 138 Q255 122 260 112"/><path d="M282 138 Q293 122 288 112"/>
+          </g>
+          <g class="dz" style="--sd:.55s;transform-box:fill-box;transform-origin:300px 195px">
+            <circle cx="300" cy="122" r="9"/><rect x="293" y="131" width="14" height="36" rx="5"/>
+            <path d="M293 144 Q284 132 288 122"/><path d="M307 144 Q316 132 312 122"/>
+          </g>
+        </g>
+        <!-- laser streaks -->
+        <line x1="160" y1="0" x2="60" y2="195" stroke="#a855f7" stroke-opacity=".18" stroke-width="1.5"/>
+        <line x1="160" y1="0" x2="160" y2="195" stroke="#ec4899" stroke-opacity=".18" stroke-width="1.5"/>
+        <line x1="160" y1="0" x2="262" y2="195" stroke="#22d3ee" stroke-opacity=".18" stroke-width="1.5"/>
+      </svg>
     </div>
   </div>
 </div>
@@ -809,42 +858,23 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
       </div>
 
       <div id="sound">
-        <div class="liveset glass2">
-          <div class="art">
-            <svg viewBox="0 0 400 400" id="vinylArt"><defs>
-              <radialGradient id="vg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#1a1a25"/><stop offset="70%" stop-color="#0a0a12"/><stop offset="100%" stop-color="#05050a"/></radialGradient>
-              <linearGradient id="r1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
-              <linearGradient id="r2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ec4899"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs>
-              <g id="vinylSpin" style="transform-origin:200px 200px">
-                <circle cx="200" cy="200" r="150" fill="url(#vg)" stroke="url(#r1)" stroke-width="2"/>
-                <circle cx="200" cy="200" r="116" fill="none" stroke="#fff" stroke-opacity=".06"/>
-                <circle cx="200" cy="200" r="92" fill="none" stroke="#fff" stroke-opacity=".06"/>
-                <circle cx="200" cy="200" r="46" fill="none" stroke="url(#r2)" stroke-width="6" stroke-dasharray="6 10" stroke-linecap="round"/>
-                <circle cx="200" cy="200" r="20" fill="url(#r2)"/><circle cx="200" cy="200" r="5" fill="#05050a"/>
-              </g>
-              <circle cx="330" cy="86" r="14" fill="#11111a" stroke="url(#r1)" stroke-width="2"/>
-              <line x1="330" y1="86" x2="236" y2="206" stroke="url(#r1)" stroke-width="5" stroke-linecap="round"/>
-              <circle cx="236" cy="206" r="7" fill="#ec4899"/>
-            </svg>
+        <div class="sp-wrap glass2">
+          <div class="sp-header">
+            <span class="tag-live"><span class="dot"></span> STREAMING</span>
+            <span class="mono" style="font-size:11px;color:var(--muted)">via Spotify</span>
           </div>
-          <div class="pad">
-            <div class="ls-top">
-              <span class="tag-live"><span class="dot"></span> LIVE SET PREVIEW</span>
-              <span class="mono" style="font-size:12px;color:var(--muted)">320kbps</span>
-            </div>
-            <div class="ls-main">
-              <button class="play-btn" id="playBtn" aria-label="Play preview">
-                <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor" style="margin-left:3px"><path d="M7 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 7 5.5Z"/></svg>
-              </button>
-              <div style="min-width:0;flex:1">
-                <div class="ls-title">Midnight Keppel Bay Set</div>
-                <div class="ls-sub">REY. · Melodic Techno Continuous Mix</div>
-              </div>
-            </div>
-            <div class="wave" id="wave" aria-hidden="true"></div>
-            <div class="track" id="track"><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
-            <div class="ls-time"><span id="curTime">00:00</span><span id="midTime">62:14 mins</span><span>62:14</span></div>
+          <div class="sp-genres" id="spGenres">
+            <button class="sp-genre active" data-pid="37i9dQZF1DX6J5NfMJS675">Melodic Techno</button>
+            <button class="sp-genre" data-pid="37i9dQZF1DX6RwL3nEfaAB">Tech House</button>
+            <button class="sp-genre" data-pid="37i9dQZF1DX2ENQST5qe0q">Progressive</button>
+            <button class="sp-genre" data-pid="37i9dQZF1DX2TRYkJECvfC">Deep House</button>
+            <button class="sp-genre" data-pid="37i9dQZF1DXa8NOjJE6T5q">House</button>
           </div>
+          <iframe id="spotifyFrame" style="border-radius:14px;display:block;margin-top:12px"
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX6J5NfMJS675?utm_source=generator&theme=0"
+            width="100%" height="352" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy" title="REY. — Genre Playlist"></iframe>
         </div>
         <p class="showreel-note">Showreel landing soon — live booth footage in production.</p>
       </div>
@@ -1070,34 +1100,32 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 
           <div class="field">
             <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg> Venue type</div>
-            <div class="scale-grid" id="scaleGrid">
-              <button class="scale active" data-scale="Yacht / Boat (up to 80 pax)">
-                <span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15.5h18l-2.4 4.2a2 2 0 0 1-1.7 1H7.1a2 2 0 0 1-1.7-1L3 15.5Z"/><path d="M5.5 15.5 6 9.2a1.5 1.5 0 0 1 1.5-1.4H15a1.5 1.5 0 0 1 1.5 1.4l.5 6.3"/><path d="M11.5 7.8V3.5l5 2.2-5 2.1"/></svg></span>
-                <span><span class="sl">Yacht / Boat (up to 80 pax)</span><span class="ss">Marine-grade setup · sunset to late</span></span>
-              </button>
-              <button class="scale" data-scale="Indoor Venue (80–3000 sqft+)">
-                <span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12H3Z"/><path d="M9 21v-8h6v8"/></svg></span>
-                <span><span class="sl">Indoor Venue (80–3000 sqft+)</span><span class="ss">Club / warehouse / private room</span></span>
-              </button>
+            <div class="etype-grid" id="scaleGrid">
+              <button class="etype active" data-scale="Club Night">Club Night</button>
+              <button class="etype" data-scale="House Party">House Party</button>
+              <button class="etype" data-scale="Pool Party">Pool Party</button>
+              <button class="etype" data-scale="Warehouse Takeover">Warehouse Takeover</button>
+              <button class="etype" data-scale="Boat Session">Boat Session</button>
+              <button class="etype" data-scale="Private Event">Private Event</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.3 3-5.2 5.5-5.2S13.9 16.7 14.5 20"/><path d="M16 5.2a3 3 0 0 1 0 5.8M17.5 20c-.3-2-1.1-3.6-2.3-4.6"/></svg> Number of DJs</div>
+            <div class="etype-grid" id="djCountGrid" style="margin-top:2px">
+              <button class="etype active" data-djcount="1 DJ">1 DJ</button>
+              <button class="etype" data-djcount="2 DJs+">2 DJs+</button>
             </div>
           </div>
 
           <div class="field">
             <div class="label" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg> Equipment</div>
             <button class="toggle on cyan" id="paToggle" aria-pressed="true">
-              <span><span class="tl">Pioneer DJ Decks</span><span class="th">CDJ-2000NXS2 + DJM mixer — industry standard.</span></span>
+              <span><span class="tl">DJ Decks</span><span class="th">Professional DJ setup — industry standard.</span></span>
               <span class="sw"><span class="kn"></span></span>
             </button>
             <button class="toggle on cyan" id="jblToggle" aria-pressed="true" style="margin-top:10px">
-              <span><span class="tl">JBL PA System</span><span class="th">Line-array speakers — fills up to 3000 sqft.</span></span>
-              <span class="sw"><span class="kn"></span></span>
-            </button>
-            <button class="toggle" id="subToggle" aria-pressed="false" style="margin-top:10px">
-              <span><span class="tl">Subwoofer Package</span><span class="th">Deep low-end — ideal for warehouses &amp; large venues.</span></span>
-              <span class="sw"><span class="kn"></span></span>
-            </button>
-            <button class="toggle pink" id="djToggle" aria-pressed="false" style="margin-top:10px">
-              <span><span class="tl">Lighting / Strobes</span><span class="th">Stage lighting rig to complete the visual experience.</span></span>
+              <span><span class="tl">Speaker System</span><span class="th">Full PA — fills small rooms to 3000 sqft.</span></span>
               <span class="sw"><span class="kn"></span></span>
             </button>
           </div>
@@ -1114,12 +1142,11 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
               <div class="body">
                 <div class="h">🔊 REY. — PRODUCTION BRIEF</div><hr>
                 <div class="pl"><span class="pk">📅 Date</span><span class="pv" id="pvDate">Flexible / TBC</span></div>
-                <div class="pl"><span class="pk">📍 Venue</span><span class="pv" id="pvScale">Yacht / Boat (up to 80 pax)</span></div>
+                <div class="pl"><span class="pk">📍 Venue</span><span class="pv" id="pvScale">Club Night</span></div>
                 <div class="pl"><span class="pk">👥 Guests</span><span class="pv" id="pvGuests">40 pax</span></div>
-                <div class="pl"><span class="pk">🎚️ Pioneer Decks</span><span class="pv hi" id="pvPa">Yes</span></div>
-                <div class="pl"><span class="pk">🔊 JBL PA</span><span class="pv hi" id="pvJbl">Yes</span></div>
-                <div class="pl"><span class="pk">💥 Subwoofer</span><span class="pv" id="pvSub">No</span></div>
-                <div class="pl"><span class="pk">💡 Lighting</span><span class="pv" id="pvDj">No</span></div><hr>
+                <div class="pl"><span class="pk">🎧 DJs</span><span class="pv" id="pvDjCount">1 DJ</span></div>
+                <div class="pl"><span class="pk">🎚️ DJ Decks</span><span class="pv hi" id="pvPa">Yes</span></div>
+                <div class="pl"><span class="pk">🔊 Speakers</span><span class="pv hi" id="pvJbl">Yes</span></div><hr>
                 <div style="color:var(--dim)">Compiled live → routes to wa.me/<span id="pvWa">6581234567</span></div>
               </div>
             </div>
@@ -1421,22 +1448,6 @@ $("guests").addEventListener("input",function(){ guests=parseInt(this.value,10);
 $("rate").addEventListener("input",function(){ rate=Math.max(0,parseInt(this.value||"0",10)); renderVip(); });
 $("hostToggle").addEventListener("click",function(){ hostOn=!hostOn; this.classList.toggle("on",hostOn); this.setAttribute("aria-expanded",hostOn); $("split").classList.toggle("show",hostOn); });
 
-/* ============ LIVE SET ============ */
-var playing=false, prog=0, audioTimer=null;
-function setProgUI(){ var pct=(prog/TOTAL_SECS)*100; $("fill").style.width=pct+"%"; $("knob").style.left=pct+"%"; $("curTime").textContent=fmtClock(prog); $("midTime").textContent=playing?"NOW PLAYING":"62:14 mins"; }
-$("playBtn").addEventListener("click",function(){
-  playing=!playing;
-  $("wave").classList.toggle("playing",playing);
-  $("vinylSpin").style.animation=playing?"spin 14s linear infinite":"none";
-  $("playIcon").outerHTML = playing
-    ? '<svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="5" width="4" height="14" rx="1.2"/><rect x="13.5" y="5" width="4" height="14" rx="1.2"/></svg>'
-    : '<svg id="playIcon" viewBox="0 0 24 24" fill="currentColor" style="margin-left:3px"><path d="M7 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 7 5.5Z"/></svg>';
-  this.setAttribute("aria-label",playing?"Pause preview":"Play preview");
-  if(playing){ audioTimer=setInterval(function(){ prog++; if(prog>=TOTAL_SECS){ prog=TOTAL_SECS; $("playBtn").click(); } setProgUI(); },1000); }
-  else { clearInterval(audioTimer); }
-  setProgUI();
-});
-$("track").addEventListener("click",function(e){ var r=this.getBoundingClientRect(); prog=Math.round(Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*TOTAL_SECS); setProgUI(); });
 
 /* ============ DJ BOOKING (Card 1) ============ */
 var djEventType="Club Night", djGenres=["Tech House"], djDuration=3;
@@ -1479,40 +1490,50 @@ $("djEnquireBtn").addEventListener("click",function(){
 });
 
 /* ============ SOUND & PRODUCTION (Card 2) ============ */
-var scale="Yacht / Boat (up to 80 pax)", paOn=true, jblOn=true, subOn=false, djOn=false;
+var scale="Club Night", djCount="1 DJ", paOn=true, jblOn=true;
 
 function renderB2B(){
   var d=$("b2bDate").value, g=$("b2bGuests").value;
   $("pvDate").textContent=d?fmtDateLong(d):"Flexible / TBC";
   $("pvScale").textContent=scale; $("pvGuests").textContent=g+" pax";
+  $("pvDjCount").textContent=djCount;
   $("pvPa").textContent=paOn?"Yes":"No"; $("pvPa").className="pv"+(paOn?" hi":"");
   $("pvJbl").textContent=jblOn?"Yes":"No"; $("pvJbl").className="pv"+(jblOn?" hi":"");
-  $("pvSub").textContent=subOn?"Yes":"No"; $("pvSub").className="pv"+(subOn?" hi":"");
-  $("pvDj").textContent=djOn?"Yes":"No"; $("pvDj").className="pv"+(djOn?" hi":"");
   var pw=$("pvWa"); if(pw) pw.textContent=WA_NUMBER;
 }
 
-$("scaleGrid").addEventListener("click",function(e){ var b=e.target.closest(".scale"); if(!b) return;
+$("scaleGrid").addEventListener("click",function(e){ var b=e.target.closest(".etype"); if(!b) return;
   scale=b.getAttribute("data-scale");
-  this.querySelectorAll(".scale").forEach(function(x){ x.classList.remove("active"); });
+  this.querySelectorAll(".etype").forEach(function(x){ x.classList.remove("active"); });
+  b.classList.add("active"); renderB2B(); });
+$("djCountGrid").addEventListener("click",function(e){ var b=e.target.closest(".etype"); if(!b) return;
+  djCount=b.getAttribute("data-djcount");
+  this.querySelectorAll(".etype").forEach(function(x){ x.classList.remove("active"); });
   b.classList.add("active"); renderB2B(); });
 $("b2bDate").addEventListener("change",renderB2B);
 $("b2bGuests").addEventListener("input",function(){ $("b2bGuestVal").textContent=this.value; renderB2B(); });
 $("paToggle").addEventListener("click",function(){ paOn=!paOn; this.classList.toggle("on",paOn); this.classList.toggle("cyan",paOn); this.setAttribute("aria-pressed",paOn); renderB2B(); });
 $("jblToggle").addEventListener("click",function(){ jblOn=!jblOn; this.classList.toggle("on",jblOn); this.classList.toggle("cyan",jblOn); this.setAttribute("aria-pressed",jblOn); renderB2B(); });
-$("subToggle").addEventListener("click",function(){ subOn=!subOn; this.classList.toggle("on",subOn); this.classList.toggle("cyan",subOn); this.setAttribute("aria-pressed",subOn); renderB2B(); });
-$("djToggle").addEventListener("click",function(){ djOn=!djOn; this.classList.toggle("on",djOn); this.classList.toggle("pink",!djOn); this.setAttribute("aria-pressed",djOn); renderB2B(); });
 
 $("quoteBtn").addEventListener("click",function(){
   var d=$("b2bDate").value, g=$("b2bGuests").value;
-  var eq=[]; if(paOn) eq.push("Pioneer CDJ-2000NXS2 + DJM mixer"); if(jblOn) eq.push("JBL PA line-array"); if(subOn) eq.push("Subwoofer package"); if(djOn) eq.push("Lighting / strobes");
+  var eq=[]; if(paOn) eq.push("DJ Decks"); if(jblOn) eq.push("Speaker System");
   var lines=["🔊 REY. — PRODUCTION BRIEF","",
     "📅 Date: "+(d?fmtDateLong(d):"Flexible / TBC"),
     "📍 Venue type: "+scale,
+    "🎧 DJs: "+djCount,
     "👥 Approx. guests: "+g+" pax",
-    "🎚️ Equipment needed: "+(eq.length?eq.join(", "):"House system / TBC"),
+    "🎚️ Equipment: "+(eq.length?eq.join(", "):"House system / TBC"),
     "","Kindly advise availability and a bespoke quote. 🙏"];
   window.open("https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(lines.join("\n")),"_blank");
+});
+
+/* ============ SPOTIFY GENRE SWITCHER ============ */
+$("spGenres").addEventListener("click",function(e){ var b=e.target.closest(".sp-genre"); if(!b) return;
+  this.querySelectorAll(".sp-genre").forEach(function(x){ x.classList.remove("active"); });
+  b.classList.add("active");
+  var f=$("spotifyFrame");
+  f.src="https://open.spotify.com/embed/playlist/"+b.getAttribute("data-pid")+"?utm_source=generator&theme=0";
 });
 
 /* ============ REVIEWS TABS ============ */
