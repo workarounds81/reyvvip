@@ -153,7 +153,7 @@
   --r:18px; --rl:26px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;width:100%}
 body{
   background:var(--ink); color:var(--text); overflow-x:hidden; line-height:1.55;
   font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
@@ -236,8 +236,8 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 /* Layered hero photo — natural colors, transparent cutout.
    Mobile (default): centered, dimmed, BEHIND all text + widget (z0 < h1 z1 < widget z3).
    Desktop (≥1000px, below): nudged left behind the wordmark + audio widget (z2). */
-.hero-bg-photo{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:76%;width:auto;pointer-events:none;z-index:0;opacity:.28;
-  -webkit-mask-image:linear-gradient(to top,transparent 0,#000 20%);mask-image:linear-gradient(to top,transparent 0,#000 20%)}
+.hero-bg-photo{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(82%,330px);height:auto;max-width:none;pointer-events:none;z-index:0;opacity:.24;
+  -webkit-mask-image:linear-gradient(to top,transparent 0,#000 22%);mask-image:linear-gradient(to top,transparent 0,#000 22%)}
 /* the layered sandwich */
 .hero h1{position:relative;z-index:1}
 .hero .pill-row,.hero p.intro,.hero .genres,.hero .hero-cta,.hero .stats,.hero #sound{position:relative;z-index:3}
@@ -519,7 +519,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(min-width:820px){.nav-links{display:flex}.burger{display:none}}
 @media(min-width:1000px){
   .hero{padding:140px 0 30px}
-  .hero-bg-photo{left:auto;right:4%;transform:none;height:95%;opacity:.82;z-index:2;
+  .hero-bg-photo{left:auto;right:4%;transform:none;width:auto;height:95%;opacity:.82;z-index:2;
     -webkit-mask-image:linear-gradient(to left,#000 52%,transparent 97%),linear-gradient(to top,transparent 1%,#000 13%);
     mask-image:linear-gradient(to left,#000 52%,transparent 97%),linear-gradient(to top,transparent 1%,#000 13%);
     -webkit-mask-composite:source-in;mask-composite:intersect}
@@ -644,9 +644,9 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 (function(){
   var intro=document.getElementById('reyIntro'); if(!intro) return;
   var mq=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)');
-  var reduce=!!(mq&&mq.matches), seen=false;
+  var reduce=!!(mq&&mq.matches), seen=false, force=/[?&]intro\b/.test(location.search);
   try{ seen=sessionStorage.getItem('reyIntroSeen')==='1'; }catch(e){}
-  if(reduce||seen){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
+  if(reduce||(seen&&!force)){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
   try{ sessionStorage.setItem('reyIntroSeen','1'); }catch(e){}
   var root=document.documentElement; root.style.overflow='hidden';
   var scenes=intro.querySelectorAll('.scene'), timers=[];
