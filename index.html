@@ -389,6 +389,7 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 .t-bot{padding:8px 24px 24px}
 .t-pay-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .t-total{font-family:'Syne',sans-serif;font-weight:800;font-size:38px;line-height:1}
+.t-usd{font-family:'Space Grotesk',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px;vertical-align:middle}
 .t-per{font-size:12px;color:var(--dim);margin-top:4px}
 .barcode{display:flex;align-items:flex-end;gap:2px;height:46px}
 .barcode span{width:2px;background:rgba(255,255,255,.7)}
@@ -955,7 +956,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
               <div class="perf"><span class="cut l"></span><span class="cut r"></span></div>
               <div class="t-bot">
                 <div class="t-pay-row">
-                  <div><div class="t-k">Total booking</div><div class="t-total" id="tTotal">S$300</div><div class="t-per" id="tPer">S$150 / guy · all-in entry + host table</div></div>
+                  <div><div class="t-k">Total booking</div><div class="t-total" id="tTotal">S$300<span class="t-usd" id="tTotalUsd"></span></div><div class="t-per" id="tPer">S$150 / guy · all-in entry + host table</div></div>
                   <div class="barcode" id="barcode"></div>
                 </div>
                 <div class="pay-area" id="payActive">
@@ -1247,7 +1248,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
         <div class="r"><span class="rk">Club</span><span class="rv" id="mClub">Marquee</span></div>
         <div class="r"><span class="rk">Date</span><span class="rv" id="mDate">SAT, 20 JUN 2026</span></div>
         <div class="r"><span class="rk">Slots</span><span class="rv" id="mSlots">2 guys · 11:15 PM</span></div>
-        <div class="r tot"><span class="rk">Total</span><span class="rv grad-text" id="mTotal" style="font-family:'Syne';font-size:19px">S$300</span></div>
+        <div class="r tot"><span class="rk">Total</span><span class="rv grad-text" id="mTotal" style="font-family:'Syne';font-size:19px">S$300</span><span class="t-usd" id="mTotalUsd" style="margin-left:8px"></span></div>
       </div>
       <div class="countdown" id="countdown">
         <div class="ck" id="ckLabel">Complete payment within</div>
@@ -1268,6 +1269,46 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 var WA_NUMBER = "6581234567";   // <-- change to your real WhatsApp number (country code, no +)
 var TG_USERNAME = "xrkingx";   // <-- your Telegram username (no @)
 var HOST_COST = 60, TOTAL_SECS = 3734;
+
+/* ============ PRICING BY REGION ============ */
+var REGION_PRICING = {
+  Singapore: { rate: 150, hostCost: 60, sym: "S$", currency: "SGD" },
+  Bangkok:   { rate: 3000, hostCost: 1200, sym: "฿", currency: "THB" }
+};
+
+/* ============ FX CACHE ============ */
+var fxRates = {}; /* { SGD: 0.74, THB: 0.028 } approx — refreshed on first enquiry */
+var fxFetched = false;
+
+function fetchFx(cb) {
+  if (fxFetched) { cb(); return; }
+  fetch("https://api.frankfurter.app/latest?from=USD&to=SGD,THB")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      /* d.rates = { SGD: 1.35, THB: 35.5 } — how many SGD/THB per 1 USD */
+      if (d && d.rates) {
+        fxRates.SGD = d.rates.SGD || 1.35;
+        fxRates.THB = d.rates.THB || 35.5;
+        fxFetched = true;
+      }
+      cb();
+    })
+    .catch(function(){ cb(); }); /* fail silently — USD label just disappears */
+}
+
+function toUSD(amount, currency) {
+  var rate = fxRates[currency];
+  if (!rate) return "";
+  return "≈ US$" + Math.round(amount / rate).toLocaleString();
+}
+
+/* ============ VIP PASS — unique per session-booking ============ */
+function genPass() {
+  var t = Date.now();
+  var h = ((t ^ (t >>> 16)) * 0x45d9f3b) >>> 0;
+  return "#RY-" + (1000 + (h % 9000));
+}
+var SESSION_PASS = genPass();
 
 /* ============ CALENDAR ENGINE ============ */
 var SG_PH_EVES = ["2026-01-16","2026-03-20","2026-04-02","2026-04-30","2026-05-26","2026-05-30","2026-08-08","2026-11-07","2026-12-24","2026-12-31","2027-01-16","2027-03-09","2027-03-25","2027-04-30","2027-05-16","2027-05-19","2027-08-08","2027-10-27","2027-12-24","2027-12-31"];
@@ -1325,7 +1366,11 @@ function renderRegions(){ var g=$("regionRow"),h="";
 renderRegions();
 
 /* ============ VIP STATE ============ */
-var club="Marquee", rate=150, guests=2, hostOn=false;
+var club="Marquee", guests=2, hostOn=false;
+/* rate and sym are set from REGION_PRICING when region changes */
+var rate = REGION_PRICING.Singapore.rate;
+var sym  = REGION_PRICING.Singapore.sym;
+var localCurrency = REGION_PRICING.Singapore.currency;
 
 /* club buttons (no logo — keeps names readable in tight space) */
 function renderClubs(){ var g=$("clubGrid"),h=""; CLUB_KEYS=Object.keys(CLUBS);
@@ -1352,9 +1397,10 @@ function renderVip(){
   $("tVenue").textContent=club; $("tArea").textContent=c.area; $("tVibe").textContent=c.vibe;
   $("tDate").textContent=fmtDateLong(dateStr);
   $("tSlots").textContent=guests+(guests>1?" Guys":" Guy");
-  $("tTotal").textContent="S$"+total.toLocaleString();
-  $("tPer").textContent="S$"+rate+" / guy · all-in entry + host table";
-  $("tPass").textContent="#RY-"+(((1000+guests*7+rate)%9000)+1000);
+  $("tTotal").firstChild.textContent=sym+total.toLocaleString();
+  var usdEl=$("tTotalUsd"); if(usdEl){ var u=toUSD(total,localCurrency); usdEl.textContent=u?u:""; }
+  $("tPer").textContent=sym+rate+" / guy · all-in entry + host table";
+  $("tPass").textContent=SESSION_PASS;
   $("ticketGlow").style.background="linear-gradient(135deg,"+c.accent[0]+"55,"+c.accent[1]+"33)";
   $("tTop").style.background="linear-gradient(135deg,"+c.accent[0]+"22,transparent 60%)";
 
@@ -1371,9 +1417,12 @@ function highlightActiveClub(){ var a=document.querySelector('.club[data-club="'
 $("regionRow").addEventListener("click",function(e){ var b=e.target.closest(".region"); if(!b) return;
   var r=b.getAttribute("data-region"); if(REGIONS[r].soon||r===region) return;
   region=r; CLUBS=REGIONS[region].clubs; CLUB_KEYS=Object.keys(CLUBS); club=CLUB_KEYS[0];
+  /* update pricing for this region */
+  var pricing=REGION_PRICING[region]||REGION_PRICING.Singapore;
+  rate=pricing.rate; sym=pricing.sym; localCurrency=pricing.currency;
   var all=this.querySelectorAll(".region"); for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   b.classList.add("active");
-  renderClubs(); highlightActiveClub(); renderVip();
+  fetchFx(function(){ renderClubs(); highlightActiveClub(); renderVip(); });
 });
 
 /* club select */
@@ -1472,11 +1521,15 @@ function openModal(method){
   $("mTitle").textContent=enquiry?"Enquiry Ready":"Slot Secured";
   $("mSub").textContent=enquiry?"Send the message to confirm availability.":"Pending payment via "+method+". Complete to lock your table.";
   $("mClub").textContent=club+" · "+region; $("mDate").textContent=fmtDateLong(dateStr);
-  $("mSlots").textContent=guests+(guests>1?" guys":" guy")+" · Flexible entry"; $("mTotal").textContent="S$"+total.toLocaleString();
+  $("mSlots").textContent=guests+(guests>1?" guys":" guy")+" · Flexible entry";
+  var usdStr=toUSD(total,localCurrency);
+  $("mTotal").textContent=sym+total.toLocaleString()+(usdStr?" ("+usdStr+")":"");
+  var mUsd=$("mTotalUsd"); if(mUsd) mUsd.textContent="";
   $("countdown").style.display=enquiry?"none":"block";
   $("mWaText").textContent=enquiry?"Send Enquiry on Telegram":"Send Payment Confirmation";
   var net=Math.max(0,rate-HOST_COST);
-  var msg="🍾 REY. — VIP SHARED TABLE\n\n🌏 City: "+region+"\n🏛️ Club: "+club+"\n📅 Date: "+fmtDateLong(dateStr)+"\n👥 Slots: "+guests+" "+(guests>1?"guys":"guy")+"\n🕦 Arrival: Flexible VIP Entry\n💵 Total: S$"+total.toLocaleString()+"\n💳 Method: "+method+"\n\n— — — internal split — — —\nCustomer pays: S$"+total.toLocaleString()+"\nHost share: S$"+(HOST_COST*guests).toLocaleString()+"\nYour net: S$"+(net*guests).toLocaleString()+"\n\nLock me in 🔥";
+  var usdLine=usdStr?" ("+usdStr+")":"";
+  var msg="🍾 REY. — VIP SHARED TABLE\n\n🌏 City: "+region+"\n🏛️ Club: "+club+"\n📅 Date: "+fmtDateLong(dateStr)+"\n👥 Spots: "+guests+" "+(guests>1?"guys":"guy")+"\n🕦 Arrival: Flexible VIP Entry\n💵 Total: "+sym+total.toLocaleString()+usdLine+"\n💳 Method: "+method+"\n🎫 Pass: "+SESSION_PASS+"\n\n— — — internal — — —\nCustomer: "+sym+total.toLocaleString()+usdLine+"\nHost share: "+sym+(HOST_COST*guests).toLocaleString()+"\nYour net: "+sym+(net*guests).toLocaleString()+"\n\nLock me in 🔥";
   $("mWa").href="https://t.me/"+TG_USERNAME+"?text="+encodeURIComponent(msg);
   /* countdown reset */
   cdLeft=300; updateCd(); clearInterval(cdTimer);
@@ -1503,6 +1556,8 @@ $("mobileMenu").addEventListener("click",function(e){ if(e.target.tagName==="A")
 /* ============ INIT ============ */
 highlightActiveClub();
 renderVip(); renderDJ(); renderB2B();
+/* fetch FX immediately so USD shows on first load */
+fetchFx(function(){ renderVip(); });
 </script>
 </body>
 </html>
