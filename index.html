@@ -891,14 +891,14 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
             <span class="mono" style="font-size:11px;color:var(--muted)">via Spotify</span>
           </div>
           <div class="sp-genres" id="spGenres">
-            <button class="sp-genre active" data-pid="0aUHXLjLoyw0cfDTayFVg9">Melodic Techno</button>
-            <button class="sp-genre" data-pid="7nppx7uLgcmkZHg70HNfOk">Tech House</button>
-            <button class="sp-genre" data-pid="0Q3ugz23LAXFg2PvXJ8hMx">Progressive</button>
-            <button class="sp-genre" data-pid="6vDGVr652ztNWKZuHvsFvx">Deep House</button>
-            <button class="sp-genre" data-pid="7bu7BZEusLNJSaAuUUZBKn">House</button>
+            <button class="sp-genre active" data-src="https://open.spotify.com/embed/playlist/0aUHXLjLoyw0cfDTayFVg9?utm_source=generator&si=3ba0d30517754cdb">Melodic Techno</button>
+            <button class="sp-genre" data-src="https://open.spotify.com/embed/playlist/7nppx7uLgcmkZHg70HNfOk?utm_source=generator&si=a731e4c187a4484f">Tech House</button>
+            <button class="sp-genre" data-src="https://open.spotify.com/embed/playlist/0Q3ugz23LAXFg2PvXJ8hMx?utm_source=generator&si=448642d95aef4c86">Progressive</button>
+            <button class="sp-genre" data-src="https://open.spotify.com/embed/playlist/6vDGVr652ztNWKZuHvsFvx?utm_source=generator&si=77f407dd122b4f0d">Deep House</button>
+            <button class="sp-genre" data-src="https://open.spotify.com/embed/playlist/7bu7BZEusLNJSaAuUUZBKn?utm_source=generator&si=f8924fa18c294c96">House</button>
           </div>
           <iframe id="spotifyFrame" style="border-radius:14px;display:block;margin-top:12px"
-            src="https://open.spotify.com/embed/playlist/0aUHXLjLoyw0cfDTayFVg9?utm_source=generator&theme=0"
+            src="https://open.spotify.com/embed/playlist/0aUHXLjLoyw0cfDTayFVg9?utm_source=generator&si=3ba0d30517754cdb"
             width="100%" height="352" frameBorder="0" allowfullscreen=""
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy" title="REY. — Genre Playlist"></iframe>
@@ -1525,7 +1525,7 @@ $("spGenres").addEventListener("click",function(e){ var b=e.target.closest(".sp-
   this.querySelectorAll(".sp-genre").forEach(function(x){ x.classList.remove("active"); });
   b.classList.add("active");
   var f=$("spotifyFrame");
-  f.src="https://open.spotify.com/embed/playlist/"+b.getAttribute("data-pid")+"?utm_source=generator&theme=0";
+  f.src=b.getAttribute("data-src");
 });
 
 /* ============ REVIEWS TABS ============ */
