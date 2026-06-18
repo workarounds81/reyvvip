@@ -236,7 +236,8 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 /* Layered hero photo — natural colors, transparent cutout.
    Mobile (default): centered, dimmed, BEHIND all text + widget (z0 < h1 z1 < widget z3).
    Desktop (≥1000px, below): nudged left behind the wordmark + audio widget (z2). */
-.hero-bg-photo{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:0;opacity:.32;
+/* fixed so the portrait stays in the background as the user scrolls; sits behind all content */
+.hero-bg-photo{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:-1;opacity:.2;
   -webkit-mask-image:radial-gradient(ellipse 78% 82% at 50% 80%,#000 30%,rgba(0,0,0,.7) 55%,transparent 80%);mask-image:radial-gradient(ellipse 78% 82% at 50% 80%,#000 30%,rgba(0,0,0,.7) 55%,transparent 80%)}
 /* the layered sandwich */
 .hero h1{position:relative;z-index:1}
@@ -519,7 +520,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(min-width:820px){.nav-links{display:flex}.burger{display:none}}
 @media(min-width:1000px){
   .hero{padding:140px 0 30px}
-  .hero-bg-photo{left:auto;right:2%;transform:none;width:auto;height:94%;opacity:.78;z-index:2;
+  .hero-bg-photo{left:auto;right:2%;bottom:0;transform:none;width:auto;height:92vh;opacity:.5;z-index:-1;
     -webkit-mask-image:radial-gradient(ellipse 82% 90% at 70% 60%,#000 28%,rgba(0,0,0,.75) 52%,rgba(0,0,0,.3) 72%,transparent 90%);
     mask-image:radial-gradient(ellipse 82% 90% at 70% 60%,#000 28%,rgba(0,0,0,.75) 52%,rgba(0,0,0,.3) 72%,transparent 90%)}
   .hero-grid{grid-template-columns:1.15fr .85fr;gap:32px}
@@ -527,30 +528,27 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 }
 
 /* ===================== INTRO OVERLAY (plays every visit) ===================== */
+/* CSS-driven (no JS timeline) so it can never stall on mobile; ends transparent + non-blocking */
 .intro{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse 72% 60% at 50% 42%,#0d0d18 0%,#06060a 72%)}
-.intro.focus{animation:introFocus .5s ease forwards}
+  background:#08080e;animation:introBg 1.6s ease forwards}
 .intro-skip{position:absolute;top:16px;right:16px;z-index:6;font-family:'Space Grotesk',monospace;font-size:11px;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;color:rgba(232,232,240,.5);border:1px solid var(--line);
   background:rgba(255,255,255,.04);border-radius:999px;padding:9px 15px}
 .intro-skip:hover{color:#fff;background:rgba(255,255,255,.09)}
 .intro-stage{position:relative;width:min(80vw,360px);height:min(80vw,360px)}
-.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .22s ease;pointer-events:none}
-.scene.show{opacity:1}
-/* step 1 — vinyl */
-.ivinyl{width:60%;height:60%;transform-origin:50% 50%}
-.scene.show .ivinyl{animation:spin 1s linear infinite}
-/* step 2 — pixel equalizer */
+.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0}
+.scene[data-step="1"]{animation:s1 1.6s ease forwards}
+.scene[data-step="2"]{animation:s2 1.6s ease forwards}
+.scene[data-step="3"]{animation:s3 1.6s ease forwards}
+.ivinyl{width:60%;height:60%;transform-origin:50% 50%;animation:spin 1s linear infinite}
 .intro-eq{display:flex;align-items:flex-end;gap:7px;height:40%}
 .intro-eq i{display:block;width:13px;height:100%;border-radius:2px;transform-origin:bottom;transform:scaleY(.15);
   background:linear-gradient(to top,#22d3ee,#a855f7 55%,#ec4899);
   -webkit-mask-image:repeating-linear-gradient(to top,#000 0 7px,transparent 7px 10px);
-  mask-image:repeating-linear-gradient(to top,#000 0 7px,transparent 7px 10px)}
-.scene.show .intro-eq i{animation:eqp var(--d,.5s) steps(5) var(--delay,0s) infinite}
-/* step 3 — dancing crowd silhouette */
+  mask-image:repeating-linear-gradient(to top,#000 0 7px,transparent 7px 10px);
+  animation:eqp var(--d,.5s) steps(5) var(--delay,0s) infinite}
 .idance{width:100%;height:auto}
-.dz{transform-box:fill-box;transform-origin:50% 100%;will-change:transform}
-.scene.show .dz{animation:sway .9s ease-in-out var(--sd,0s) infinite alternate}
+.dz{transform-box:fill-box;transform-origin:50% 100%;animation:sway .9s ease-in-out var(--sd,0s) infinite alternate}
 
 /* ===================== KEYFRAMES ===================== */
 @keyframes eq{0%,100%{transform:scaleY(.16)}50%{transform:scaleY(1)}}
@@ -561,10 +559,16 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @keyframes pop{0%{opacity:0;transform:scale(.86)}60%{transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
 @keyframes dash{to{stroke-dashoffset:0}}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-/* intro sequence */
+/* intro sequence (pure CSS timeline, ~1.6s total) */
 @keyframes eqp{0%{transform:scaleY(.15)}50%{transform:scaleY(1)}100%{transform:scaleY(.3)}}
 @keyframes sway{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
-@keyframes introFocus{0%{background:rgba(8,8,14,.5);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}100%{background:rgba(8,8,14,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}}
+@keyframes s1{0%{opacity:1}19%{opacity:1}25%{opacity:0}100%{opacity:0}}
+@keyframes s2{0%,19%{opacity:0}25%{opacity:1}42%{opacity:1}48%{opacity:0}100%{opacity:0}}
+@keyframes s3{0%,42%{opacity:0}48%{opacity:1}64%{opacity:1}72%{opacity:0}100%{opacity:0}}
+@keyframes introBg{
+  0%,64%{background:#08080e;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
+  68%{background:rgba(8,8,14,.5);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+  100%{background:rgba(8,8,14,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);visibility:hidden;pointer-events:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -633,20 +637,11 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 </div>
 <script>
 (function(){
+  /* The intro animates entirely in CSS and self-hides; this only removes the node
+     and handles Skip. If JS never runs, the overlay still ends transparent + click-through. */
   var intro=document.getElementById('reyIntro'); if(!intro) return;
-  var root=document.documentElement; root.style.overflow='hidden';
-  var scenes=intro.querySelectorAll('.scene'), timers=[];
-  function show(n){ for(var k=0;k<scenes.length;k++){ scenes[k].classList.toggle('show',k===n); } }
-  function at(t,fn){ timers.push(setTimeout(fn,t)); }
-  function done(){
-    for(var k=0;k<timers.length;k++){ clearTimeout(timers[k]); }
-    if(intro.parentNode) intro.parentNode.removeChild(intro); root.style.overflow='';
-  }
-  at(0,function(){show(0);});                                   // vinyl
-  at(360,function(){show(1);});                                 // equalizer
-  at(720,function(){show(2);});                                 // crowd
-  at(1040,function(){show(-1);intro.classList.add('focus');});  // site blur -> focus
-  at(1500,done);
+  function done(){ if(intro&&intro.parentNode) intro.parentNode.removeChild(intro); }
+  setTimeout(done,1700);
   var skip=document.getElementById('reyIntroSkip'); if(skip) skip.addEventListener('click',done);
 })();
 </script>
