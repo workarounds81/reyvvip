@@ -526,41 +526,31 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
   .layout{grid-template-columns:1.25fr .75fr}
 }
 
-/* ===================== INTRO OVERLAY (once per session) ===================== */
+/* ===================== INTRO OVERLAY (plays every visit) ===================== */
 .intro{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse 72% 60% at 50% 42%,#0d0d18 0%,#06060a 72%)}
-.intro.out{animation:introOut .6s ease forwards}
+.intro.focus{animation:introFocus .5s ease forwards}
 .intro-skip{position:absolute;top:16px;right:16px;z-index:6;font-family:'Space Grotesk',monospace;font-size:11px;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;color:rgba(232,232,240,.5);border:1px solid var(--line);
-  background:rgba(255,255,255,.04);border-radius:999px;padding:9px 15px;transition:color .2s,background .2s}
+  background:rgba(255,255,255,.04);border-radius:999px;padding:9px 15px}
 .intro-skip:hover{color:#fff;background:rgba(255,255,255,.09)}
-.intro-stage{position:relative;width:min(82vw,400px);height:min(82vw,400px)}
-.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .5s ease;pointer-events:none}
+.intro-stage{position:relative;width:min(80vw,360px);height:min(80vw,360px)}
+.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .22s ease;pointer-events:none}
 .scene.show{opacity:1}
 /* step 1 — vinyl */
-.ivinyl{width:64%;height:64%;transform-origin:50% 50%}
-.scene.show .ivinyl{animation:spin 2.6s linear infinite}
-/* step 2 — pixel equalizer + floating notes */
-.intro-eq{display:flex;align-items:flex-end;gap:7px;height:42%}
+.ivinyl{width:60%;height:60%;transform-origin:50% 50%}
+.scene.show .ivinyl{animation:spin 1s linear infinite}
+/* step 2 — pixel equalizer */
+.intro-eq{display:flex;align-items:flex-end;gap:7px;height:40%}
 .intro-eq i{display:block;width:13px;height:100%;border-radius:2px;transform-origin:bottom;transform:scaleY(.15);
   background:linear-gradient(to top,#22d3ee,#a855f7 55%,#ec4899);
   -webkit-mask-image:repeating-linear-gradient(to top,#000 0 7px,transparent 7px 10px);
   mask-image:repeating-linear-gradient(to top,#000 0 7px,transparent 7px 10px)}
-.scene.show .intro-eq i{animation:eqp var(--d,.7s) steps(6) var(--delay,0s) infinite}
-.note{position:absolute;bottom:18%;font-size:22px;line-height:1;color:#ec4899;opacity:0;filter:drop-shadow(0 0 6px rgba(236,72,153,.55))}
-.scene.show .note{animation:noteFloat var(--nd,2.4s) ease-in var(--ndelay,0s) infinite}
-/* step 3 — dancing silhouettes */
-.idance{width:90%}
+.scene.show .intro-eq i{animation:eqp var(--d,.5s) steps(5) var(--delay,0s) infinite}
+/* step 3 — dancing crowd silhouette */
+.idance{width:100%;height:auto}
 .dz{transform-box:fill-box;transform-origin:50% 100%;will-change:transform}
-.scene.show .dz{animation:sway 1.1s ease-in-out var(--sd,0s) infinite alternate}
-/* step 4 — portrait spring-up + blur-to-focus */
-.intro-portrait{height:100%;display:grid;place-items:end center}
-.intro-portrait img{height:96%;width:auto;transform:translate3d(0,42%,0) scale(.92);filter:blur(22px);opacity:0;will-change:transform,filter,opacity}
-.scene.show .intro-portrait img{animation:portraitReveal 1s cubic-bezier(.34,1.56,.64,1) forwards}
-.intro-word{position:absolute;bottom:6%;left:0;right:0;text-align:center;font-family:'Syne',sans-serif;font-weight:800;
-  font-size:clamp(26px,7vw,40px);letter-spacing:-.02em;opacity:0;animation:wordIn .7s ease 2.9s forwards}
-.intro-word .d{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-@media(prefers-reduced-motion:reduce){.intro{display:none!important}}
+.scene.show .dz{animation:sway .9s ease-in-out var(--sd,0s) infinite alternate}
 
 /* ===================== KEYFRAMES ===================== */
 @keyframes eq{0%,100%{transform:scaleY(.16)}50%{transform:scaleY(1)}}
@@ -573,12 +563,9 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 /* intro sequence */
 @keyframes eqp{0%{transform:scaleY(.15)}50%{transform:scaleY(1)}100%{transform:scaleY(.3)}}
-@keyframes noteFloat{0%{transform:translateY(18px) scale(.8);opacity:0}15%{opacity:1}70%{opacity:.9}100%{transform:translateY(-92px) scale(1.1);opacity:0}}
-@keyframes sway{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
-@keyframes portraitReveal{0%{transform:translate3d(0,42%,0) scale(.92);filter:blur(22px);opacity:0}55%{opacity:1}100%{transform:translate3d(0,0,0) scale(1);filter:blur(0);opacity:1}}
-@keyframes wordIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes introOut{to{opacity:0;visibility:hidden}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important;animation-iteration-count:1!important;scroll-behavior:auto}}
+@keyframes sway{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+@keyframes introFocus{0%{background:rgba(8,8,14,.5);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}100%{background:rgba(8,8,14,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -603,82 +590,69 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
         <circle cx="100" cy="100" r="13" fill="url(#ir2)"/><circle cx="100" cy="100" r="3.5" fill="#05050a"/>
       </svg>
     </div>
-    <!-- Step 2: pixel equalizer + floating notes -->
+    <!-- Step 2: pixel equalizer -->
     <div class="scene" data-step="2">
       <div class="intro-eq">
-        <i style="--d:.66s;--delay:0s"></i><i style="--d:.8s;--delay:.18s"></i><i style="--d:.6s;--delay:.34s"></i>
-        <i style="--d:.74s;--delay:.08s"></i><i style="--d:.9s;--delay:.26s"></i><i style="--d:.62s;--delay:.42s"></i>
-        <i style="--d:.78s;--delay:.14s"></i><i style="--d:.68s;--delay:.3s"></i><i style="--d:.84s;--delay:.05s"></i>
+        <i style="--d:.46s;--delay:0s"></i><i style="--d:.54s;--delay:.1s"></i><i style="--d:.4s;--delay:.22s"></i>
+        <i style="--d:.5s;--delay:.05s"></i><i style="--d:.58s;--delay:.16s"></i><i style="--d:.42s;--delay:.26s"></i>
+        <i style="--d:.52s;--delay:.09s"></i><i style="--d:.46s;--delay:.2s"></i><i style="--d:.56s;--delay:.03s"></i>
       </div>
-      <span class="note" style="left:12%;--ndelay:0s;--nd:2.2s">♪</span>
-      <span class="note" style="left:38%;--ndelay:.7s;--nd:2.6s">♫</span>
-      <span class="note" style="left:64%;--ndelay:.3s;--nd:2.4s">♪</span>
-      <span class="note" style="left:85%;--ndelay:1s;--nd:2.8s">♬</span>
     </div>
-    <!-- Step 3: dancing silhouettes -->
+    <!-- Step 3: backlit dancing crowd silhouette -->
     <div class="scene" data-step="3">
-      <svg class="idance" viewBox="0 0 320 160" style="filter:drop-shadow(0 0 10px rgba(34,211,238,.7)) drop-shadow(0 0 22px rgba(99,102,241,.5))">
+      <svg class="idance" viewBox="0 0 340 200" preserveAspectRatio="xMidYMax meet">
         <defs>
-          <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <radialGradient id="stagelight" cx="50%" cy="36%" r="62%">
+            <stop offset="0" stop-color="#fde7f3" stop-opacity=".95"/>
+            <stop offset="26%" stop-color="#ec4899" stop-opacity=".85"/>
+            <stop offset="60%" stop-color="#a855f7" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+          </radialGradient>
         </defs>
-        <!-- Dancer 1 — arms up, weight on left leg -->
-        <g class="dz" style="--sd:0s" transform="translate(56,148)" fill="#06060a" stroke="#22d3ee" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
-          <ellipse cx="0" cy="-128" rx="11" ry="13"/>
-          <path d="M0,-115 C-2,-95 -4,-75 -6,-58 C-14,-62 -22,-68 -26,-80 C-28,-85 -18,-90 -14,-82 C-10,-70 -8,-60 -6,-58 C-4,-56 4,-56 6,-58 C10,-70 12,-82 16,-90 C20,-98 10,-96 8,-80"/>
-          <path d="M-6,-58 C-8,-42 -12,-22 -14,0 L-22,0 C-20,-22 -16,-42 -14,-58"/>
-          <path d="M-6,-58 C-4,-42 0,-22 2,0 L10,0 C8,-22 4,-42 2,-58"/>
+        <ellipse cx="170" cy="78" rx="165" ry="112" fill="url(#stagelight)"/>
+        <g opacity=".9">
+          <rect x="120" y="36" width="3" height="6" fill="#fff" transform="rotate(20 121 39)"/>
+          <rect x="212" y="30" width="3" height="6" fill="#22d3ee" transform="rotate(-18 213 33)"/>
+          <rect x="166" y="24" width="3" height="6" fill="#fde68a" transform="rotate(40 167 27)"/>
+          <rect x="244" y="48" width="3" height="6" fill="#fff" transform="rotate(28 245 51)"/>
+          <circle cx="150" cy="46" r="1.6" fill="#22d3ee"/><circle cx="196" cy="42" r="1.6" fill="#fff"/><circle cx="232" cy="38" r="1.6" fill="#fde68a"/>
         </g>
-        <!-- Dancer 2 — side lean, one arm out -->
-        <g class="dz" style="--sd:.32s" transform="translate(160,148)" fill="#06060a" stroke="#22d3ee" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
-          <ellipse cx="0" cy="-132" rx="11" ry="13"/>
-          <path d="M0,-119 C2,-100 6,-80 8,-62 C18,-58 28,-54 34,-44 C38,-36 26,-34 22,-42 C16,-54 10,-60 8,-62 C6,-64 -4,-64 -6,-62 C-12,-50 -16,-36 -20,-24"/>
-          <path d="M8,-62 C10,-44 12,-22 14,0 L6,0 C4,-22 2,-44 0,-62"/>
-          <path d="M8,-62 C4,-44 -2,-22 -4,0 L-14,0 C-10,-22 -4,-44 -2,-62"/>
-        </g>
-        <!-- Dancer 3 — arms spread, jumping pose -->
-        <g class="dz" style="--sd:.18s" transform="translate(264,148)" fill="#06060a" stroke="#22d3ee" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
-          <ellipse cx="0" cy="-126" rx="11" ry="13"/>
-          <path d="M0,-113 C0,-95 0,-78 0,-60 C-12,-54 -24,-46 -30,-36 C-26,-30 -16,-38 -12,-48 C-6,-58 -2,-62 0,-60 C2,-62 6,-58 12,-50 C18,-40 28,-30 32,-36 C36,-44 24,-52 16,-58 C10,-62 4,-60 0,-60"/>
-          <path d="M-4,-60 C-6,-40 -10,-18 -14,0 L-22,0"/>
-          <path d="M4,-60 C8,-40 12,-18 16,0 L8,0"/>
+        <g fill="#04040a" stroke="#04040a" stroke-linecap="round" stroke-linejoin="round">
+          <g transform="translate(26,184) scale(.92)"><g class="dz" style="--sd:.1s"><circle cx="0" cy="-78" r="7.5" stroke="none"/><path d="M0,-71 L0,-38" stroke-width="12"/><path d="M0,-64 L-15,-88" stroke-width="6"/><path d="M0,-64 L15,-90" stroke-width="6"/><path d="M0,-38 L-8,0" stroke-width="8"/><path d="M0,-38 L9,0" stroke-width="8"/></g></g>
+          <g transform="translate(70,184) scale(1.05)"><g class="dz" style="--sd:.32s"><circle cx="0" cy="-82" r="7.5" stroke="none"/><path d="M0,-75 L0,-40" stroke-width="12"/><path d="M0,-68 L-12,-96" stroke-width="6"/><path d="M0,-68 L12,-96" stroke-width="6"/><path d="M0,-40 L-8,0" stroke-width="8"/><path d="M0,-40 L8,0" stroke-width="8"/></g></g>
+          <g transform="translate(112,184) scale(.98)"><g class="dz" style="--sd:0s"><circle cx="0" cy="-80" r="7.5" stroke="none"/><path d="M0,-73 L0,-40" stroke-width="12"/><path d="M0,-66 L-18,-78" stroke-width="6"/><path d="M0,-66 L13,-92" stroke-width="6"/><path d="M0,-40 L-9,0" stroke-width="8"/><path d="M0,-40 L8,0" stroke-width="8"/></g></g>
+          <g transform="translate(152,184) scale(1.12)"><g class="dz" style="--sd:.22s"><circle cx="0" cy="-82" r="7.5" stroke="none"/><path d="M0,-75 L0,-40" stroke-width="12"/><path d="M0,-68 L-12,-96" stroke-width="6"/><path d="M0,-68 L12,-96" stroke-width="6"/><path d="M0,-40 L-8,0" stroke-width="8"/><path d="M0,-40 L8,0" stroke-width="8"/></g></g>
+          <g transform="translate(192,184) scale(1)"><g class="dz" style="--sd:.4s"><circle cx="0" cy="-80" r="7.5" stroke="none"/><path d="M0,-73 L0,-40" stroke-width="12"/><path d="M0,-66 L13,-78" stroke-width="6"/><path d="M0,-66 L-18,-92" stroke-width="6"/><path d="M0,-40 L-8,0" stroke-width="8"/><path d="M0,-40 L9,0" stroke-width="8"/></g></g>
+          <g transform="translate(232,184) scale(1.08)"><g class="dz" style="--sd:.14s"><circle cx="0" cy="-82" r="7.5" stroke="none"/><path d="M0,-75 L0,-40" stroke-width="12"/><path d="M0,-68 L-12,-96" stroke-width="6"/><path d="M0,-68 L12,-96" stroke-width="6"/><path d="M0,-40 L-8,0" stroke-width="8"/><path d="M0,-40 L8,0" stroke-width="8"/></g></g>
+          <g transform="translate(274,184) scale(.96)"><g class="dz" style="--sd:.3s"><circle cx="0" cy="-80" r="7.5" stroke="none"/><path d="M0,-73 L0,-40" stroke-width="12"/><path d="M0,-66 L-18,-78" stroke-width="6"/><path d="M0,-66 L13,-92" stroke-width="6"/><path d="M0,-40 L-9,0" stroke-width="8"/><path d="M0,-40 L8,0" stroke-width="8"/></g></g>
+          <g transform="translate(314,184) scale(.9)"><g class="dz" style="--sd:.05s"><circle cx="0" cy="-78" r="7.5" stroke="none"/><path d="M0,-71 L0,-38" stroke-width="12"/><path d="M0,-64 L-15,-88" stroke-width="6"/><path d="M0,-64 L15,-90" stroke-width="6"/><path d="M0,-38 L-8,0" stroke-width="8"/><path d="M0,-38 L9,0" stroke-width="8"/></g></g>
         </g>
       </svg>
     </div>
-    <!-- Step 4: portrait spring-up + blur-to-focus -->
-    <div class="scene" data-step="4">
-      <div class="intro-portrait"><img src="rey-cutout.png" alt="REY. — Singapore DJ" /></div>
-    </div>
   </div>
-  <div class="intro-word">REY<span class="d">.</span></div>
 </div>
 <script>
 (function(){
   var intro=document.getElementById('reyIntro'); if(!intro) return;
-  var mq=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)');
-  var reduce=!!(mq&&mq.matches);
-  if(reduce){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
   var root=document.documentElement; root.style.overflow='hidden';
   var scenes=intro.querySelectorAll('.scene'), timers=[];
   function show(n){ for(var k=0;k<scenes.length;k++){ scenes[k].classList.toggle('show',k===n); } }
   function at(t,fn){ timers.push(setTimeout(fn,t)); }
-  function finish(){
+  function done(){
     for(var k=0;k<timers.length;k++){ clearTimeout(timers[k]); }
-    intro.classList.add('out');
-    setTimeout(function(){ if(intro.parentNode) intro.parentNode.removeChild(intro); root.style.overflow=''; },650);
+    if(intro.parentNode) intro.parentNode.removeChild(intro); root.style.overflow='';
   }
-  at(0,function(){show(0);});      // vinyl
-  at(900,function(){show(1);});    // equalizer + notes
-  at(1950,function(){show(2);});   // dancers (bridge)
-  at(2900,function(){show(3);});   // portrait reveal
-  at(4150,finish);
-  var skip=document.getElementById('reyIntroSkip'); if(skip) skip.addEventListener('click',finish);
-  intro.addEventListener('click',function(e){ if(e.target===intro) finish(); });
+  at(0,function(){show(0);});                                   // vinyl
+  at(360,function(){show(1);});                                 // equalizer
+  at(720,function(){show(2);});                                 // crowd
+  at(1040,function(){show(-1);intro.classList.add('focus');});  // site blur -> focus
+  at(1500,done);
+  var skip=document.getElementById('reyIntroSkip'); if(skip) skip.addEventListener('click',done);
 })();
 </script>
 
 <div class="backdrop" aria-hidden="true">
   <span class="orb p"></span><span class="orb c"></span><span class="orb k"></span>
-  <span class="grid"></span>
 </div>
 
 <!-- ===================== NAV ===================== -->
@@ -716,7 +690,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 <main>
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="top">
-  <img class="hero-bg-photo" src="rey-cutout.png" alt="" aria-hidden="true" />
+  <img class="hero-bg-photo" src="rey-cutout.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
   <div class="container">
     <div class="hero-grid">
       <div>
