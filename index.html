@@ -1002,8 +1002,8 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 </section>
 
 <!-- ===================== MARQUEE 2 ===================== -->
-<div id="marquee2" class="marquee-wrap" aria-hidden="true">
-  <div class="marquee"><div class="row" id="marqueeRow2"></div></div>
+<div class="marquee" aria-hidden="true">
+  <div class="row" id="marqueeRow2"></div>
 </div>
 
 <!-- ===================== BOOKINGS ===================== -->
@@ -1137,8 +1137,8 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 </section>
 
 <!-- ===================== MARQUEE 3 ===================== -->
-<div id="marquee3" class="marquee-wrap" aria-hidden="true">
-  <div class="marquee"><div class="row" id="marqueeRow3"></div></div>
+<div class="marquee" aria-hidden="true">
+  <div class="row" id="marqueeRow3"></div>
 </div>
 
 <!-- ===================== REVIEWS ===================== -->
@@ -1386,14 +1386,12 @@ function venueMarkSVG(name,size){ var c=CLUBS[name].accent, id="g"+name.replace(
 /* marquee 2 */
 (function(){ var items=["Covers VIP Entry","•","VIP Table Placement","•","Drinks Included","•","G.O.T","•","Chow","•","Marquee","•","Zouk","•","Baes","•","Milli","•","UpperHouse","•","Baccarat","•","Salone","•","Muin","•","Dope & Dirty","•"];
   var el=$("marqueeRow2"); if(!el) return;
-  var html=""; for(var k=0;k<4;k++){ for(var i=0;i<items.length;i++) html+="<span>"+items[i]+"</span>"; } el.innerHTML=html;
-  el.style.animation="marquee 32s linear infinite reverse"; })();
+  var html=""; for(var k=0;k<2;k++){ for(var i=0;i<items.length;i++) html+="<span>"+items[i]+"</span>"; } el.innerHTML=html; })();
 
 /* marquee 3 */
 (function(){ var items=["Mega-Club","•","Underground Techno","•","Tech House","•","Melodic Techno","•","Progressive","•","Deep House","•","Private Room","•","Rooftop Venue","•","Marina Bay","•","Thonglor","•","Clarke Quay","•","Sukhumvit","•"];
   var el=$("marqueeRow3"); if(!el) return;
-  var html=""; for(var k=0;k<4;k++){ for(var i=0;i<items.length;i++) html+="<span>"+items[i]+"</span>"; } el.innerHTML=html;
-  el.style.animation="marquee 36s linear infinite"; })();
+  var html=""; for(var k=0;k<2;k++){ for(var i=0;i<items.length;i++) html+="<span>"+items[i]+"</span>"; } el.innerHTML=html; })();
 
 /* barcode */
 (function(){ var b=$("barcode"),h=""; for(var i=0;i<22;i++){ h+='<span style="height:'+(6+((i*37)%34))+'px"></span>'; } b.innerHTML=h; })();
