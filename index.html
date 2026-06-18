@@ -529,10 +529,9 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 /* event type grid */
 .etype-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
 @media(min-width:560px){.etype-grid{grid-template-columns:repeat(3,1fr)}}
-.etype{display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:16px;padding:14px 10px;font-size:12.5px;font-weight:600;color:var(--muted);transition:border .15s,box-shadow .2s,background .15s;text-align:center}
+.etype{display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:16px;padding:14px 10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--muted);transition:border .15s,box-shadow .2s,background .15s;text-align:center}
 .etype:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.07)}
 .etype.active{border-color:rgba(168,85,247,.6);background:rgba(168,85,247,.08);color:#fff;box-shadow:0 0 0 1.5px rgba(168,85,247,.4),0 0 22px -8px rgba(168,85,247,.6)}
-.etype .ei{font-size:22px;line-height:1}
 /* genre chips */
 .genre-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .genre-chip{display:inline-flex;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;padding:7px 15px;font-size:13px;font-weight:500;color:rgba(232,232,240,.7);cursor:pointer;transition:.15s}
@@ -981,12 +980,12 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
             01 — DJ BOOKING &nbsp;·&nbsp; Event type
           </div>
           <div class="etype-grid" id="etypeGrid">
-            <button class="etype active" data-etype="Club Night"><span class="ei">🎙</span>Club Night</button>
-            <button class="etype" data-etype="House Party"><span class="ei">🏠</span>House Party</button>
-            <button class="etype" data-etype="Pool Party"><span class="ei">🏊</span>Pool Party</button>
-            <button class="etype" data-etype="Warehouse Takeover"><span class="ei">🏭</span>Warehouse Takeover</button>
-            <button class="etype" data-etype="Boat Session"><span class="ei">🚢</span>Boat Session</button>
-            <button class="etype" data-etype="Private Event"><span class="ei">🎭</span>Private Event</button>
+            <button class="etype active" data-etype="Club Night">Club Night</button>
+            <button class="etype" data-etype="House Party">House Party</button>
+            <button class="etype" data-etype="Pool Party">Pool Party</button>
+            <button class="etype" data-etype="Warehouse Takeover">Warehouse Takeover</button>
+            <button class="etype" data-etype="Boat Session">Boat Session</button>
+            <button class="etype" data-etype="Private Event">Private Event</button>
           </div>
 
           <div class="field">
