@@ -295,11 +295,11 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 
 /* region pills */
 .region-row{display:flex;flex-wrap:wrap;gap:10px}
-.region{flex:1 1 0;min-width:96px;position:relative;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:14px;padding:12px 14px;text-align:left;transition:border .15s,box-shadow .2s}
+.region{flex:1 1 0;min-width:0;overflow:hidden;position:relative;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:14px;padding:12px 14px;text-align:left;transition:border .15s,box-shadow .2s}
 .region:hover{border-color:rgba(255,255,255,.25)}
 .region.active{border-color:rgba(34,211,238,.6);box-shadow:0 0 0 1.5px rgba(34,211,238,.5),0 0 26px -8px rgba(34,211,238,.7)}
-.region .rg{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}
-.region .rc{font-size:10.5px;color:var(--dim);margin-top:2px}
+.region .rg{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region .rc{font-size:10.5px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .region.soon{opacity:.55;cursor:not-allowed}
 .region.soon .rc{color:var(--pink)}
 
@@ -599,9 +599,11 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
   .club{padding:11px;min-height:74px;display:flex;flex-direction:column;justify-content:center}
   .club .nm{font-size:13.5px}
   .club .ar{font-size:10px}
-  /* region pills — equal width, wrap-safe */
-  .region{min-width:0;padding:11px 10px}
-  .region .rg{font-size:13.5px}
+  /* region pills — 2 columns, no text overflow */
+  .region-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .region{min-width:0;padding:11px 12px}
+  .region .rg{font-size:14px}
+  .region .rc{font-size:10px}
 }
 </style>
 </head>
