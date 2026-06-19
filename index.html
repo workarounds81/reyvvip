@@ -249,6 +249,9 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
    Mobile (default): centered, dimmed, BEHIND all text + widget (z0 < h1 z1 < widget z3).
    Desktop (≥1000px, below): nudged left behind the wordmark + audio widget (z2). */
 /* fixed so the portrait stays in the background as the user scrolls; sits behind all content */
+.vip-bg-photo{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;z-index:-1;opacity:0;transition:opacity 1s ease;
+  -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,rgba(0,0,0,.55) 0%,rgba(0,0,0,.2) 55%,transparent 80%);mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,rgba(0,0,0,.55) 0%,rgba(0,0,0,.2) 55%,transparent 80%);
+  mix-blend-mode:luminosity;filter:saturate(.4) brightness(.45)}
 .hero-bg-photo{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:-1;opacity:0;transition:opacity .8s ease;
   -webkit-mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%);mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%)}
 /* the layered sandwich */
@@ -857,6 +860,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="top">
   <img class="hero-bg-photo" src="rey-cutout.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
+  <img class="vip-bg-photo" src="Milli.png" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
   <div class="container">
     <div class="hero-grid">
       <div>
@@ -1594,9 +1598,17 @@ function onScroll(){
   if(photo&&prod){
     var rect=prod.getBoundingClientRect();
     var wh=window.innerHeight;
-    /* fade in as section enters, fade out as it leaves */
     var visible=(rect.top<wh*0.85&&rect.bottom>wh*0.15);
     photo.style.opacity=visible?(window.innerWidth>=1000?"0.32":"0.22"):"0";
+  }
+  /* milli bg fade: visible only over #vip section */
+  var milliBg=document.querySelector(".vip-bg-photo");
+  var vipSec=$("vip");
+  if(milliBg&&vipSec){
+    var vr=vipSec.getBoundingClientRect();
+    var wh2=window.innerHeight;
+    var vVisible=(vr.top<wh2*0.85&&vr.bottom>wh2*0.15);
+    milliBg.style.opacity=vVisible?"0.18":"0";
   }
 }
 window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
