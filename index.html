@@ -249,7 +249,7 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
    Mobile (default): centered, dimmed, BEHIND all text + widget (z0 < h1 z1 < widget z3).
    Desktop (≥1000px, below): nudged left behind the wordmark + audio widget (z2). */
 /* fixed so the portrait stays in the background as the user scrolls; sits behind all content */
-.hero-bg-photo{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:-1;opacity:.42;
+.hero-bg-photo{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:-1;opacity:0;transition:opacity .8s ease;
   -webkit-mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%);mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%)}
 /* the layered sandwich */
 .hero h1{position:relative;z-index:1}
@@ -559,7 +559,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(min-width:820px){.nav-links{display:flex}.burger{display:none}}
 @media(min-width:1000px){
   .hero{padding:140px 0 30px}
-  .hero-bg-photo{left:auto;right:2%;bottom:0;transform:none;width:auto;height:92vh;opacity:.78;z-index:-1;
+  .hero-bg-photo{left:auto;right:2%;bottom:0;transform:none;width:auto;height:92vh;opacity:0;z-index:-1;
     -webkit-mask-image:radial-gradient(ellipse 80% 90% at 62% 46%,#000 42%,rgba(0,0,0,.65) 62%,rgba(0,0,0,.2) 78%,transparent 92%);
     mask-image:radial-gradient(ellipse 80% 90% at 62% 46%,#000 42%,rgba(0,0,0,.65) 62%,rgba(0,0,0,.2) 78%,transparent 92%)}
   .hero-grid{grid-template-columns:1.15fr .85fr;gap:32px}
@@ -1586,7 +1586,19 @@ document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeModal
 
 /* ============ NAV ============ */
 var nav=$("nav");
-function onScroll(){ nav.classList.toggle("scrolled",window.scrollY>20); }
+function onScroll(){
+  nav.classList.toggle("scrolled",window.scrollY>20);
+  /* portrait fade: visible only over #production section */
+  var photo=document.querySelector(".hero-bg-photo");
+  var prod=$("production");
+  if(photo&&prod){
+    var rect=prod.getBoundingClientRect();
+    var wh=window.innerHeight;
+    /* fade in as section enters, fade out as it leaves */
+    var visible=(rect.top<wh*0.85&&rect.bottom>wh*0.15);
+    photo.style.opacity=visible?(window.innerWidth>=1000?"0.32":"0.22"):"0";
+  }
+}
 window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
 $("burger").addEventListener("click",function(){ var m=$("mobileMenu"),open=m.classList.toggle("open"); this.setAttribute("aria-expanded",open); });
 $("mobileMenu").addEventListener("click",function(e){ if(e.target.tagName==="A"){ this.classList.remove("open"); $("burger").setAttribute("aria-expanded","false"); } });
