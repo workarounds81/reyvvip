@@ -1349,10 +1349,10 @@ function fmtClock(s){ var m=Math.floor(s/60), x=s%60; return String(m).padStart(
 
 var REGIONS={
   Singapore:{ clubs:{
-    Marquee:{area:"Marina Bay Sands",vibe:"Mega-club · Open format",accent:["#a855f7","#ec4899"]},
-    Zouk:{area:"Clarke Quay",vibe:"Iconic · Techno / House",accent:["#22d3ee","#a855f7"]},
     Baes:{area:"Clarke Quay",vibe:"Hip-hop · Bottle culture",accent:["#ec4899","#f43f5e"]},
-    Milli:{area:"National Gallery Singapore",vibe:"Intimate · Tech-house",accent:["#22d3ee","#38bdf8"]} } },
+    Milli:{area:"National Gallery Singapore",vibe:"Intimate · Tech-house",accent:["#22d3ee","#38bdf8"]},
+    Zouk:{area:"Clarke Quay",vibe:"Iconic · Techno / House",accent:["#22d3ee","#a855f7"]},
+    Marquee:{area:"Marina Bay Sands",vibe:"Mega-club · Open format",accent:["#a855f7","#ec4899"]} } },
   Bangkok:{ clubs:{
     "G.O.T":{area:"Thonglor",vibe:"Underground · Techno",accent:["#a855f7","#7c3aed"]},
     Salone:{area:"Sukhumvit 11",vibe:"Late-night · House",accent:["#22d3ee","#a855f7"]},
@@ -1404,7 +1404,7 @@ function renderRegions(){ var g=$("regionRow"),h="";
 renderRegions();
 
 /* ============ VIP STATE ============ */
-var club="Marquee", guests=2, hostOn=false;
+var club="Baes", guests=2, hostOn=false;
 /* rate and sym are set from REGION_PRICING when region changes */
 var rate = REGION_PRICING.Singapore.rate;
 var sym  = REGION_PRICING.Singapore.sym;
