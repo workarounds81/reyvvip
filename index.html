@@ -249,10 +249,10 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
    Mobile (default): centered, dimmed, BEHIND all text + widget (z0 < h1 z1 < widget z3).
    Desktop (≥1000px, below): nudged left behind the wordmark + audio widget (z2). */
 /* fixed so the portrait stays in the background as the user scrolls; sits behind all content */
-.vip-bg-photo{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:70%;height:70%;object-fit:contain;object-position:center;pointer-events:none;z-index:-1;opacity:0;transition:opacity .6s ease;
-  -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.7) 40%,rgba(0,0,0,.2) 65%,transparent 85%);mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.7) 40%,rgba(0,0,0,.2) 65%,transparent 85%);
+.vip-bg-photo{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:70%;height:70%;object-fit:contain;object-position:center;pointer-events:none;z-index:-1;opacity:0;transition:opacity .2s ease;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 25%,rgba(0,0,0,.5) 45%,rgba(0,0,0,.1) 62%,transparent 72%);mask-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 25%,rgba(0,0,0,.5) 45%,rgba(0,0,0,.1) 62%,transparent 72%);
   mix-blend-mode:luminosity;filter:saturate(.7) brightness(.7)}
-.hero-bg-photo{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:-1;opacity:0;transition:opacity .5s ease;
+.hero-bg-photo{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:-1;opacity:0;transition:opacity .2s ease;
   -webkit-mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%);mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%)}
 /* the layered sandwich */
 .hero h1{position:relative;z-index:1}
@@ -860,7 +860,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="top">
   <img class="hero-bg-photo" src="rey-cutout.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
-  <img class="vip-bg-photo" src="Milli.png" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
+  <img class="vip-bg-photo" src="Milli2.png" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
   <div class="container">
     <div class="hero-grid">
       <div>
@@ -1594,21 +1594,22 @@ function onScroll(){
   nav.classList.toggle("scrolled",window.scrollY>20);
   /* portrait fade: visible only over #production section */
   var wh=window.innerHeight;
-  /* portrait: fade in as soon as #production enters screen top */
+  /* milli2: visible over #vip section only */
+  var milliBg=document.querySelector(".vip-bg-photo");
+  var vipSec=$("vip");
+  var milliVisible=false;
+  if(milliBg&&vipSec){
+    var vr=vipSec.getBoundingClientRect();
+    milliVisible=(vr.top<wh*0.98&&vr.bottom>wh*0.05);
+    milliBg.style.opacity=milliVisible?"0.38":"0";
+  }
+  /* portrait: only show after milli2 has fully gone (#production section, not #vip) */
   var photo=document.querySelector(".hero-bg-photo");
   var prod=$("production");
   if(photo&&prod){
     var rect=prod.getBoundingClientRect();
-    var visible=(rect.top<wh*0.98&&rect.bottom>wh*0.05);
-    photo.style.opacity=visible?(window.innerWidth>=1000?"0.32":"0.22"):"0";
-  }
-  /* milli: fade in as soon as #vip enters screen top */
-  var milliBg=document.querySelector(".vip-bg-photo");
-  var vipSec=$("vip");
-  if(milliBg&&vipSec){
-    var vr=vipSec.getBoundingClientRect();
-    var vVisible=(vr.top<wh*0.98&&vr.bottom>wh*0.05);
-    milliBg.style.opacity=vVisible?"0.38":"0";
+    var prodVisible=(rect.top<wh*0.98&&rect.bottom>wh*0.05);
+    photo.style.opacity=(prodVisible&&!milliVisible)?(window.innerWidth>=1000?"0.32":"0.22"):"0";
   }
 }
 window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
