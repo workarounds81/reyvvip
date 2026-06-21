@@ -251,7 +251,10 @@ header.nav.scrolled .nav-inner{background:var(--glass2);border-color:var(--line)
 /* fixed so the portrait stays in the background as the user scrolls; sits behind all content */
 .vip-bg-photo{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:87.5%;height:87.5%;object-fit:contain;object-position:center;pointer-events:none;z-index:-1;opacity:0;transition:opacity .2s ease;
   -webkit-mask-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 25%,rgba(0,0,0,.5) 45%,rgba(0,0,0,.1) 62%,transparent 72%);mask-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 25%,rgba(0,0,0,.5) 45%,rgba(0,0,0,.1) 62%,transparent 72%);
-  mix-blend-mode:luminosity;filter:saturate(.7) brightness(.7)}
+  filter:brightness(.75)}
+.mq1-bg-photo,.mq2-bg-photo{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:87.5%;height:87.5%;object-fit:contain;object-position:center;pointer-events:none;z-index:-1;opacity:0;transition:opacity .2s ease;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 25%,rgba(0,0,0,.5) 45%,rgba(0,0,0,.1) 62%,transparent 72%);mask-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 25%,rgba(0,0,0,.5) 45%,rgba(0,0,0,.1) 62%,transparent 72%);
+  filter:brightness(.75)}
 .hero-bg-photo{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(88%,340px);height:auto;max-width:none;pointer-events:none;z-index:-1;opacity:0;transition:opacity .2s ease;
   -webkit-mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%);mask-image:radial-gradient(ellipse 72% 88% at 50% 54%,#000 38%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.15) 78%,transparent 90%)}
 /* the layered sandwich */
@@ -861,6 +864,8 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 <section class="hero" id="top">
   <img class="hero-bg-photo" src="rey-cutout.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
   <img class="vip-bg-photo" src="Milli2.png" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
+  <img class="mq1-bg-photo" src="MQ1.png" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
+  <img class="mq2-bg-photo" src="MQ2.png" alt="" aria-hidden="true" decoding="async" fetchpriority="low" />
   <div class="container">
     <div class="hero-grid">
       <div>
@@ -1592,25 +1597,21 @@ document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeModal
 var nav=$("nav");
 function onScroll(){
   nav.classList.toggle("scrolled",window.scrollY>20);
-  /* portrait fade: visible only over #production section */
   var wh=window.innerHeight;
-  /* milli2: visible over #vip section only */
+  function secVisible(id){ var s=$(id); if(!s) return false; var r=s.getBoundingClientRect(); return r.top<wh*0.98&&r.bottom>wh*0.05; }
+  var milliV=secVisible("vip");
+  var prodV=secVisible("production");
+  var vibeV=secVisible("vibe");
+  var faqV=secVisible("faq");
+  /* only one image at a time — priority: milli > portrait > mq1 > mq2 */
   var milliBg=document.querySelector(".vip-bg-photo");
-  var vipSec=$("vip");
-  var milliVisible=false;
-  if(milliBg&&vipSec){
-    var vr=vipSec.getBoundingClientRect();
-    milliVisible=(vr.top<wh*0.98&&vr.bottom>wh*0.05);
-    milliBg.style.opacity=milliVisible?"0.38":"0";
-  }
-  /* portrait: only show after milli2 has fully gone (#production section, not #vip) */
   var photo=document.querySelector(".hero-bg-photo");
-  var prod=$("production");
-  if(photo&&prod){
-    var rect=prod.getBoundingClientRect();
-    var prodVisible=(rect.top<wh*0.98&&rect.bottom>wh*0.05);
-    photo.style.opacity=(prodVisible&&!milliVisible)?(window.innerWidth>=1000?"0.32":"0.22"):"0";
-  }
+  var mq1Bg=document.querySelector(".mq1-bg-photo");
+  var mq2Bg=document.querySelector(".mq2-bg-photo");
+  if(milliBg) milliBg.style.opacity=milliV?"0.38":"0";
+  if(photo) photo.style.opacity=(prodV&&!milliV)?(window.innerWidth>=1000?"0.32":"0.22"):"0";
+  if(mq1Bg) mq1Bg.style.opacity=(vibeV&&!prodV&&!milliV)?"0.38":"0";
+  if(mq2Bg) mq2Bg.style.opacity=(faqV&&!vibeV&&!prodV&&!milliV)?"0.38":"0";
 }
 window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
 $("burger").addEventListener("click",function(){ var m=$("mobileMenu"),open=m.classList.toggle("open"); this.setAttribute("aria-expanded",open); });
