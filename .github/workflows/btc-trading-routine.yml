@@ -1,0 +1,54 @@
+name: BTC Trading Routine — RCP1 Battlefield
+
+on:
+  schedule:
+    # Every 4 hours — change to '0 * * * *' for hourly
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Run mode'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - checklist-only
+          - monitor-only
+
+jobs:
+  trade:
+    name: Run BTC Checklist & Signal
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit position_state.json back
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: main   # state file lives on main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run trading routine
+        env:
+          SIGNUM_API_KEY: ${{ secrets.SIGNUM_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RUN_MODE: ${{ inputs.mode || 'auto' }}
+        run: python trading/btc_routine.py
+
+      - name: Commit updated state & log
+        run: |
+          git config user.name  "RCP1-Bot"
+          git config user.email "bot@reyvvip"
+          git add trading/position_state.json trading/trade_log.md
+          git diff --cached --quiet || git commit -m "chore(bot): update position state & trade log [skip ci]"
+          git push origin main
