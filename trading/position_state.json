@@ -1,3 +1,9 @@
 {
-  "open": false
+  "open": true,
+  "direction": "short",
+  "entry_price": 62343.0,
+  "strategy": "unknown",
+  "tp_level": null,
+  "sl_level": null,
+  "opened_at": "2026-06-23 21:46 UTC"
 }
