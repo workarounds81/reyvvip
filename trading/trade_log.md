@@ -31,3 +31,12 @@ Bot: `kuETUfIT` | Exchange: Hyperliquid Perpetuals | Pair: BTC/USDC | Leverage: 
 [2026-06-23 11:24 UTC] NO TRADE — checklist could not complete (Claude unavailable)
 [2026-06-23 11:24 UTC] ROUTINE COMPLETE
 [2026-06-23 11:24 UTC] ============================================================
+[2026-06-23 15:16 UTC] ============================================================
+[2026-06-23 15:16 UTC] RCP1 BTC BATTLEFIELD ROUTINE | mode=auto
+[2026-06-23 15:16 UTC] BTC price: $62,278.00
+[2026-06-23 15:16 UTC] Fear & Greed: 23 — Extreme Fear
+[2026-06-23 15:16 UTC] CHECKLIST START | BTC=62,278.00 | F&G=23 (Extreme Fear)
+[2026-06-23 15:16 UTC] Claude checklist failed: 'content'
+[2026-06-23 15:16 UTC] NO TRADE — checklist could not complete (Claude unavailable)
+[2026-06-23 15:16 UTC] ROUTINE COMPLETE
+[2026-06-23 15:16 UTC] ============================================================
