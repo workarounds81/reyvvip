@@ -174,7 +174,7 @@ section{scroll-margin-top:84px}
 /* Mobile perf: the two things that made cards paint 5-10s late on iOS are
    (1) backdrop-filter blur on every card, and (2) three huge filter:blur(140px)
    orbs animating forever. Kill BOTH on phones and use cheap static backgrounds. */
-@media(max-width:820px){
+@media(max-width:820px),(hover:none){
   .glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(20,20,30,.92)}
   .glass2{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(15,15,23,.94)}
   .orb{display:none!important}
@@ -620,7 +620,7 @@ footer .legal{border-top:1px solid var(--line);padding:22px 0;text-align:center;
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 /* Mobile: animate the intro with plain opacity only — a full-screen animated
    backdrop-filter blur is very expensive on iOS and delays first paint of the page. */
-@media(max-width:820px){
+@media(max-width:820px),(hover:none){
   .intro{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
   @keyframes introBg{
     0%,58%{background:rgba(8,8,14,.9)}
