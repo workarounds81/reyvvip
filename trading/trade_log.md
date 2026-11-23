@@ -5404,3 +5404,11 @@ Bot: `kuETUfIT` | Exchange: Hyperliquid Perpetuals | Pair: BTC/USDC | Leverage: 
 [2026-11-23 00:42 UTC] Position open — no TP/SL trigger — continuing to monitor
 [2026-11-23 00:42 UTC] ROUTINE COMPLETE
 [2026-11-23 00:42 UTC] ============================================================
+[2026-11-23 14:17 UTC] ============================================================
+[2026-11-23 14:17 UTC] RCP1 BTC BATTLEFIELD ROUTINE | mode=auto
+[2026-11-23 14:17 UTC] BTC price: $63,311.00
+[2026-11-23 14:17 UTC] Fear & Greed: 11 — Extreme Fear
+[2026-11-23 14:17 UTC] MONITORING | SHORT | entry=62343.0 | tp=None | sl=None | now=63,311.00
+[2026-11-23 14:17 UTC] Position open — no TP/SL trigger — continuing to monitor
+[2026-11-23 14:17 UTC] ROUTINE COMPLETE
+[2026-11-23 14:17 UTC] ============================================================
